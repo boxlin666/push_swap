@@ -1,15 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 14:12:49 by helin             #+#    #+#             */
-/*   Updated: 2025/04/26 14:12:51 by helin            ###   ########.fr       */
+/*   Created: 2025/04/13 13:52:48 by helin             #+#    #+#             */
+/*   Updated: 2025/04/28 11:38:22 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi_ps(const char *str);  // 加入溢出检测
-void	error_exit(void);          // 打印Error并exit
-int	is_sorted(t_stack *a);        // 判断栈是否已排好序
+#include "libft.h"
+
+int	ft_lstsize(t_list *lst)
+{
+	int	size;
+
+	size = 0;
+	while (lst)
+	{
+		size++;
+		lst = lst->next;
+	}
+	return (size);
+}

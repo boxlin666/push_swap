@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 14:13:51 by helin             #+#    #+#             */
-/*   Updated: 2025/04/26 14:13:52 by helin            ###   ########.fr       */
+/*   Created: 2025/04/05 14:55:25 by helin             #+#    #+#             */
+/*   Updated: 2025/04/14 09:33:46 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
-{
-    t_stack *a;
-    t_stack *b;
+#include "libft.h"
+#include <stdlib.h>
+#include <string.h>
 
-    if (argc < 2)
-        return (0);
-    a = init_stack(argc, argv);  // 解析并建立初始栈
-    b = NULL;
-    if (!is_sorted(a))
-        sort_stack(a, b);
-    free_stack(a);
-    return (0);
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*new_node;
+
+	new_node = (t_list *)malloc(sizeof(t_list));
+	if (!new_node)
+		return (NULL);
+	new_node->content = content;
+	new_node->next = NULL;
+	return (new_node);
 }

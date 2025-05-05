@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.h                                            :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 14:14:30 by helin             #+#    #+#             */
-/*   Updated: 2025/04/26 14:20:12 by helin            ###   ########.fr       */
+/*   Created: 2025/04/05 14:18:39 by helin             #+#    #+#             */
+/*   Updated: 2025/04/06 13:52:45 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STACK_H
-# define STACK_H
+#include "libft.h"
+#include <stdlib.h>
+#include <string.h>
 
-typedef struct s_node
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-    int             value;
-    struct s_node   *next;
-}   t_node;
+	char	*new;
+	size_t	i;
 
-typedef struct s_stack
-{
-    t_node  *top;
-    int     size;
-}   t_stack;
-
-#endif
+	if (!s || !f)
+		return (NULL);
+	new = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		new[i] = f(i, s[i]);
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}

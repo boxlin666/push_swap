@@ -1,15 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort.c                                             :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 14:13:05 by helin             #+#    #+#             */
-/*   Updated: 2025/04/26 14:13:06 by helin            ###   ########.fr       */
+/*   Created: 2025/04/02 10:21:01 by helin             #+#    #+#             */
+/*   Updated: 2025/04/03 18:48:06 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	sort_stack(t_stack *a, t_stack *b);
-void	small_sort(t_stack *a);       // 小于5个元素直接特判排序
-void	chunk_sort(t_stack *a, t_stack *b, int chunk_size);  // 分块排序大数据
+#include "libft.h"
+#include <unistd.h>
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}

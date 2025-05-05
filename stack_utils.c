@@ -1,107 +1,96 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   stack_utils.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 14:21:51 by helin             #+#    #+#             */
-/*   Updated: 2025/04/26 16:42:54 by helin            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "push_swap.h"
 
-#include "stack.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
-
-// 交换两个整数的函数
-void swap(int *a, int *b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-// Fisher-Yates 洗牌算法
-void shuffle(int *array, int size) {
-    srand(time(NULL));
-    for (int i = size - 1; i > 0; i--) {
-        int j = rand() % (i + 1);  // 随机生成 [0, i]
-        swap(&array[i], &array[j]);
-    }
-}
-
-// 初始化栈并填充随机排列的数值
-t_stack *init_test_stack(int size) {
-    t_stack *stack = malloc(sizeof(t_stack));
-    if (!stack) return NULL;  // 检查 malloc 是否成功
-
-    // 创建数组来存储 0 到 size-1 的数值
-    int *values = malloc(sizeof(int) * size);
-    if (!values) {
-        free(stack);
-        return NULL;  // 如果分配失败，清理并返回 NULL
-    }
-
-    // 填充数组 [0, 1, 2, ..., size-1]
-    for (int i = 0; i < size; i++) {
-        values[i] = i;
-    }
-
-    // 打乱数组
-    shuffle(values, size);
-
-    // 使用打乱后的数组来创建节点
-    t_node *first = malloc(sizeof(t_node));
-    if (!first) {
-        free(values);
-        free(stack);
-        return NULL;  // 检查 malloc 是否成功
-    }
-    first->value = values[0];
-    t_node *current = first;
-
-    for (int i = 1; i < size; i++) {
-        t_node *new_node = malloc(sizeof(t_node));
-        if (!new_node) {
-            // 清理之前分配的内存
-            free(values);
-            free(stack);
-            return NULL;
-        }
-        new_node->value = values[i];
-        current->next = new_node;
-        current = new_node;
-    }
-
-    current->next = NULL;  // 最后一个节点的 next 设置为 NULL
-    stack->top = first;
-    stack->size = size;
-
-    // 清理临时数组
-    free(values);
-
-    return stack;
-}
-
-t_stack *init_empty_stack(void)
+int	get_stack_size(t_node *stack)
 {
-    t_stack *stack;
+	int	size;
 
-    stack = (t_stack *)malloc(sizeof(t_stack));
-    if (!stack)
-        return (NULL);  // 内存分配失败，返回NULL
-    stack->top = NULL;  // 空栈，top指针设为NULL
-    stack->size = 0;    // 空栈，size设为0
-    return (stack);
+	size = 0;
+	while (stack)
+	{
+		size++;
+		stack = stack->next;
+	}
+	return (size);
 }
 
-void    print_stack(t_stack *a)
+int	is_sorted(t_node *stack)
 {
-    t_node *curr = a->top;
-    while (curr)
-    {
-        printf("%d\n", curr->value);
-        curr = curr->next;
-    }
+	if (!stack)
+		return (1);
+	while (stack->next)
+	{
+		if (stack->value > stack->next->value)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
+}
+
+t_node	*get_stack_bottom(t_node *stack)
+{
+	if (!stack)
+		return (NULL);
+	while (stack->next)
+		stack = stack->next;
+	return (stack);
+}
+
+t_node	*get_stack_before_bottom(t_node *stack)
+{
+	if (!stack || !stack->next)
+		return (NULL);
+	while (stack->next->next)
+		stack = stack->next;
+	return (stack);
+}
+
+void	free_stack(t_node **stack)
+{
+	t_node	*current;
+	t_node	*temp;
+
+	if (!stack || !*stack)
+		return ;
+	current = *stack;
+	while (current)
+	{
+		temp = current->next;
+		free(current);
+		current = temp;
+	}
+	*stack = NULL;
+}
+
+void	error_exit(t_node **stack_a, t_node **stack_b)
+{
+	free_stack(stack_a);
+	free_stack(stack_b);
+	write(2, "Error\n", 6);
+	exit(EXIT_FAILURE);
+}
+
+int	find_min_value_pos(t_node *stack)
+{
+	int		min_val;
+	int		min_pos;
+	int		current_pos;
+	t_node	*current;
+
+	if (!stack)
+		return (-1);
+	min_val = stack->value;
+	min_pos = 0;
+	current_pos = 0;
+	current = stack;
+	while (current)
+	{
+		if (current->value < min_val)
+		{
+			min_val = current->value;
+			min_pos = current_pos;
+		}
+		current = current->next;
+		current_pos++;
+	}
+	return (min_pos);
 }
