@@ -1,53 +1,70 @@
-# --- Variables ---
+# 基本配置
 NAME = push_swap
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-RM = rm -f
+CFLAGS = -Wall -Wextra -Werror -g
+INCLUDES = -Iincludes -Ilibft
 
-# --- Source Files ---
+# 源文件和目标文件
 SRCS_DIR = .
-SRCS =	main.c \
-		parsing.c \
-		stack_utils.c \
-		operations_swap.c \
-		operations_push.c \
-		operations_rotate.c \
-		operations_rev_rotate.c \
-		sort_logic.c
+SRCS = $(SRCS_DIR)/main.c \
+       $(SRCS_DIR)/operations/swap.c \
+       $(SRCS_DIR)/operations/push.c \
+       $(SRCS_DIR)/operations/rotate.c \
+       $(SRCS_DIR)/operations/reverse_rotate.c \
+       $(SRCS_DIR)/sorting/sort_small.c \
+       $(SRCS_DIR)/sorting/sort_medium.c \
+       $(SRCS_DIR)/sorting/sort_large.c \
+       $(SRCS_DIR)/sorting/push_swap.c \
+       $(SRCS_DIR)/utils/operations.c \
+       $(SRCS_DIR)/utils/parse.c \
+       $(SRCS_DIR)/utils/error.c \
+       $(SRCS_DIR)/utils/memory.c \
+       $(SRCS_DIR)/utils/input.c
+OBJS = $(SRCS:.c=.o)
 
-OBJS_DIR = objs
-OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
-
-# --- Libft ---
+# libft 配置
 LIBFT_DIR = libft
-LIBFT_LIB = $(LIBFT_DIR)/libft.a
-LIBFT_INC = -I $(LIBFT_DIR)
-LIBFT_LNK = -L $(LIBFT_DIR) -lft
+LIBFT = $(LIBFT_DIR)/libft.a
 
-# --- Rules ---
+BONUS_NAME = checker
+BONUS_DIR = bonus
+BONUS_SRCS = $(BONUS_DIR)/checker.c \
+             $(BONUS_DIR)/checker_utils.c \
+             $(SRCS_DIR)/operations/swap.c \
+             $(SRCS_DIR)/operations/push.c \
+             $(SRCS_DIR)/operations/rotate.c \
+             $(SRCS_DIR)/operations/reverse_rotate.c \
+             $(SRCS_DIR)/utils/parse.c \
+             $(SRCS_DIR)/utils/error.c \
+             $(SRCS_DIR)/utils/memory.c \
+             $(SRCS_DIR)/utils/helpers.c
+BONUS_OBJS = $(BONUS_SRCS:.c=.o)
+
+# 规则
+.PHONY: all clean fclean re bonus
+
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT_LIB)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LNK) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBFT)
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c push_swap.h Makefile | $(OBJS_DIR)
-	$(CC) $(CFLAGS) -I . $(LIBFT_INC) -c $< -o $@
-
-$(OBJS_DIR):
-	mkdir -p $(OBJS_DIR)
-
-$(LIBFT_LIB):
+$(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	$(RM) -r $(OBJS_DIR)
+	rm -f $(OBJS) $(BONUS_OBJS)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	$(RM) $(NAME)
+	rm -f $(NAME) $(BONUS_NAME)
 
 re: fclean all
 
-# --- Phony Targets ---
-.PHONY: all clean fclean re bonus
+bonus: $(BONUS_NAME)
+
+$(BONUS_NAME): $(LIBFT) $(BONUS_OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(BONUS_NAME) $(BONUS_OBJS) $(LIBFT)

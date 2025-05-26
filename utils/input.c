@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/02 10:22:28 by helin             #+#    #+#             */
-/*   Updated: 2025/05/06 11:51:45 by helin            ###   ########.fr       */
+/*   Created: 2025/05/26 14:57:32 by helin             #+#    #+#             */
+/*   Updated: 2025/05/26 14:58:23 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <string.h>
+#include"../push_swap.h"
+#include<stdlib.h>
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+t_stack *init_stack(void)
 {
-	size_t	i;
-
-	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0' && i < n)
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char) s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	if (i == n)
-		return (0);
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+    t_stack *stack;
+    stack = malloc(sizeof(t_stack));
+    if (!stack)
+        return (NULL);
+    stack->head = NULL;
+    stack->tail = NULL;
+    stack->size = 0;
+    return (stack);
 }

@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/02 10:22:28 by helin             #+#    #+#             */
-/*   Updated: 2025/05/06 11:51:45 by helin            ###   ########.fr       */
+/*   Created: 2025/05/26 14:55:30 by helin             #+#    #+#             */
+/*   Updated: 2025/05/26 14:57:04 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <string.h>
+#include"../push_swap.h"
+#include<stdlib.h>
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void free_stack(t_stack *stack)
 {
-	size_t	i;
-
-	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0' && i < n)
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char) s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	if (i == n)
-		return (0);
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+    t_node *current;
+    t_node *next;
+    if (!stack)
+        return;
+    current = stack->head;
+    while (current)
+    {
+        next = current->next;
+        free(current);
+        current = next;
+    }
+    free(stack);
 }
