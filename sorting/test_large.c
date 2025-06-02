@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/02 17:17:51 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/02 18:35:42 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,21 @@ int find_less_max_index(t_stack *stack, int max_index)
     return less_max_index;
 }
 
+int find_index(t_stack *stack, int num)
+{
+    if (stack->size == 0)
+        return 0;
+    t_node *current = stack->head;
+    int index = 0;
+    while (current)
+    {
+        if (current->value == num)
+            return index;
+        current = current->next;
+        index++;
+    }
+    return -1;
+}
 void slice_stack(t_stack *stack_a, t_stack *stack_b, t_operation **operations, int min_val, int max_val)
 {
     int size = max_val - min_val;
@@ -148,17 +163,18 @@ int min_moves(int size, int idx)
         return size - idx; // 反转操作次数
 }
 
-int compare_move_efficiency(int size, int max_index, int less_max_index)
+int compare_move_efficiency(int size, int max_index, int less_max_index, int flag_next_index)
 {
-    int moves_max = min_moves(size, max_index);
-    int moves_less_max = min_moves(size, less_max_index);
+    int dist_max = min_moves(size, max_index);
+    int dist_less_max = min_moves(size, less_max_index) +1;
+    int dist_flag = min_moves(size, flag_next_index) +2;
 
-    if (moves_max < moves_less_max)
+    if (dist_max <= dist_less_max && dist_max <= dist_flag)
         return 1;
-    else if (moves_less_max < moves_max)
+    else if (dist_less_max <= dist_max && dist_less_max <= dist_flag)
         return 2;
     else
-        return 0;
+        return 3;
 }
 
 void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
@@ -180,16 +196,21 @@ void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
 
     int max_index;
     int less_max_index;
+    int flag_next_index;
+    int stack_a_bottom_num = 0;
     while (stack_b->size > 0)
     {
+        if(stack_a_bottom_num == 0)
+        {
+            do_pa(stack_a,stack_b,operations);
+            do_ra(stack_a,operations);
+            stack_a_bottom_num ++;
+        }
         max_index = find_max_index(stack_b);
         less_max_index = find_less_max_index(stack_b, max_index);
-
-        // 计算移动 max_index 和 less_max_index 到栈顶所需的操作数
-        int moves_max = (max_index <= stack_b->size / 2) ? max_index : stack_b->size - max_index;
-        int moves_less_max = (less_max_index >= 0) ? ((less_max_index <= stack_b->size / 2) ? less_max_index : stack_b->size - less_max_index) : stack_b->size + 1; // 如果less_max_index无效，赋个较大值
-
-        if (moves_max <= moves_less_max)
+        flag_next_index = find_index(stack_b, stack_a->tail->value + 1);
+        int target = compare_move_efficiency(stack_b->size, max_index, less_max_index, flag_next_index);
+        if (target == 1)
         {
             // 移动 max_index 到栈顶
             if (max_index <= stack_b->size / 2)
@@ -205,7 +226,7 @@ void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
             }
             do_pa(stack_a, stack_b, operations);
         }
-        else
+        else if(target == 2)
         {
             // 移动 less_max_index 到栈顶
             if (less_max_index <= stack_b->size / 2)
@@ -235,5 +256,25 @@ void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
             do_pa(stack_a, stack_b, operations);
             do_sa(stack_a, operations);
         }
+        else
+        {
+            if (flag_next_index <= stack_b->size / 2)
+            {
+                while (flag_next_index--)
+                    do_rb(stack_b, operations);
+            }
+            else
+            {
+                flag_next_index = stack_b->size - flag_next_index;
+                while (flag_next_index--)
+                    do_rrb(stack_b, operations);
+            }
+            do_pa(stack_a, stack_b, operations);
+            do_ra(stack_a, operations);
+            stack_a_bottom_num++;
+        }
+        if(stack_a->head->value == stack_a->tail->value + 1)
+            while (stack_a_bottom_num--)
+                do_rra(stack_a, operations);
     }
 }
