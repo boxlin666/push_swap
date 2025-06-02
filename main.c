@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:53:51 by helin             #+#    #+#             */
-/*   Updated: 2025/05/31 15:00:00 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/02 16:47:40 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int main(int argc, char **argv)
     {
         normalize_stack(stack_a);
         push_swap(stack_a, stack_b, &operations); // 调用排序函数
+        optimize_operations(operations);
+        operations = compress_operations(operations);
         print_operations(operations); // 输出操作序列
         free_operations(operations); // 释放操作序列内存
     }

@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/02 14:59:32 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/02 16:16:52 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ void slice_stack(t_stack *stack_a, t_stack *stack_b, t_operation **operations, i
             while (backward_steps--)
                 do_rra(stack_a, operations);
         do_pb(stack_a,stack_b,operations);
-        if(stack_b->head->value < (min_val + max_val)/2)
-            do_rrb(stack_b,operations);
         size--;
     }
 }
@@ -140,4 +138,3 @@ void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
         }
     }
 }
-// 2 1 0 4 3
