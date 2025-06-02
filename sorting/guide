@@ -1,0 +1,37 @@
+function push_swap(stack_a):
+    sorted_array = sort(stack_a)
+    total_size = len(stack_a)
+
+    # 🧩 选择 chunk 数量，动态设置
+    num_chunks = choose_chunk_count(total_size)
+    chunk_size = total_size / num_chunks
+
+    # 🔁 对每个 chunk 处理
+    for i in range(num_chunks):
+        min_val = sorted_array[i * chunk_size]
+        max_val = sorted_array[(i + 1) * chunk_size - 1]
+
+        # 🔁 找所有属于当前 chunk 的元素
+        while exists_chunk_element(stack_a, min_val, max_val):
+            index = find_best_index(stack_a, min_val, max_val)
+
+            # 🚀 将它旋转到顶部
+            rotate_to_top(stack_a, index)
+
+            # 🧠 决定是否 rb
+            value = stack_a.top()
+            push_b()
+            if value < median(min_val, max_val):
+                rotate_b()  # 小的转到底部
+            # 否则大的留在顶部
+
+    # ✅ B 中所有元素已推完，现在从 B 回归 A
+    while stack_b is not empty:
+        max_index = find_max_index(stack_b)
+        if max_index <= len(stack_b) / 2:
+            repeat max_index times:
+                rotate_b()
+        else:
+            repeat (len(stack_b) - max_index) times:
+                reverse_rotate_b()
+        push_a()

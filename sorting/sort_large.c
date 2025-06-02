@@ -6,16 +6,18 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:55:40 by helin             #+#    #+#             */
-/*   Updated: 2025/05/26 13:57:13 by helin            ###   ########.fr       */
+/*   Updated: 2025/05/27 14:35:35 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../push_swap.h"
-#include"stdlib.h"
+#include <stdlib.h>
+
 int find_median(t_stack *stack)
 {
     int *arr = malloc(sizeof(int) * stack->size);
-        //error_exit();
+    if(!arr)
+        error_exit();
     t_node *current = stack->head;
     int i = 0;
     while (current)
@@ -116,7 +118,7 @@ void sort_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
         else
             do_ra(stack_a, operations);
     }
-    if (stack_a->size > 10)
+    if (stack_a->size > 5)
         sort_large(stack_a, stack_b, operations);
     else if (stack_a->size > 3)
         sort_medium(stack_a, stack_b, operations);

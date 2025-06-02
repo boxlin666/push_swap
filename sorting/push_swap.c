@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:58:41 by helin             #+#    #+#             */
-/*   Updated: 2025/05/26 15:56:07 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/02 14:18:58 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ void push_swap(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
     else if (stack_a->size <= 5)
         sort_medium(stack_a, stack_b, operations);
     else
-        sort_large(stack_a, stack_b, operations);
+        test_large(stack_a, stack_b, operations);
 }

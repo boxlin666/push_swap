@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/05/26 13:55:15 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/02 14:31:30 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_operation
 t_stack *init_stack(void);
 void push_swap(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
 int parse_input(t_stack *stack_a, int argc, char **argv);
+void normalize_stack(t_stack *a);
 
 void do_sa(t_stack *stack_a, t_operation **operations);
 void do_sb(t_stack *stack_b, t_operation **operations);
@@ -52,7 +53,7 @@ void do_rrr(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
 
 void sort_small(t_stack *stack_a, t_operation **operations);
 void sort_medium(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
-void sort_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
+void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
 t_operation *add_operation(t_operation *head, const char *op);
 void print_operations(t_operation *operations);
 void free_operations(t_operation *operations);
