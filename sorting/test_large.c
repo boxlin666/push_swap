@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/02 18:35:42 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/02 18:56:56 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ int compare_move_efficiency(int size, int max_index, int less_max_index, int fla
     else if (dist_less_max <= dist_max && dist_less_max <= dist_flag)
         return 2;
     else
-        return 3;
+        return 2;
 }
 
 void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)

@@ -6,12 +6,13 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:57:32 by helin             #+#    #+#             */
-/*   Updated: 2025/05/31 14:59:13 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/02 18:48:10 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../push_swap.h"
 #include<stdlib.h>
+#include<stdio.h>
 
 t_stack *init_stack(void)
 {
@@ -92,4 +93,42 @@ void normalize_stack(t_stack *a)
     }
 
     free(arr);
+}
+
+void print_stacks(t_stack *stack_a, t_stack *stack_b)
+{
+    t_node *a = stack_a->head;
+    t_node *b = stack_b->head;
+
+    printf("\n%-10s %-10s\n", "Stack A", "Stack B");
+    printf("----------------------\n");
+
+    // 同时遍历两个栈，逐行打印
+    while (a || b)
+    {
+        if (a)
+        {
+            printf("%-10d ", a->value);
+            a = a->next;
+        }
+        else
+        {
+            printf("%-10s ", " ");
+        }
+
+        if (b)
+        {
+            printf("%-10d", b->value);
+            b = b->next;
+        }
+        else
+        {
+            printf("%-10s", " ");
+        }
+
+        printf("\n");
+    }
+
+    printf("----------------------\n");
+    printf("Size A: %d, Size B: %d\n\n", stack_a->size, stack_b->size);
 }
