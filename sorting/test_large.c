@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/02 17:17:51 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/02 19:03:46 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int min_moves(int size, int idx)
 int compare_move_efficiency(int size, int max_index, int less_max_index)
 {
     int moves_max = min_moves(size, max_index);
-    int moves_less_max = min_moves(size, less_max_index);
+    int moves_less_max = min_moves(size, less_max_index) + 1;
 
     if (moves_max < moves_less_max)
         return 1;
@@ -184,12 +184,8 @@ void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
     {
         max_index = find_max_index(stack_b);
         less_max_index = find_less_max_index(stack_b, max_index);
-
-        // 计算移动 max_index 和 less_max_index 到栈顶所需的操作数
-        int moves_max = (max_index <= stack_b->size / 2) ? max_index : stack_b->size - max_index;
-        int moves_less_max = (less_max_index >= 0) ? ((less_max_index <= stack_b->size / 2) ? less_max_index : stack_b->size - less_max_index) : stack_b->size + 1; // 如果less_max_index无效，赋个较大值
-
-        if (moves_max <= moves_less_max)
+        int target = compare_move_efficiency(stack_b->size, max_index, less_max_index);
+        if (target == 1)
         {
             // 移动 max_index 到栈顶
             if (max_index <= stack_b->size / 2)
