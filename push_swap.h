@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/03 11:48:58 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/03 15:06:51 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 
 typedef struct s_node
 {
-    int value;           // 存储数字
+    int value;           // 原始归一化后的数字（0..n-1）
+    int in_lis;          // 0 表示不在 LIS，1 表示在 LIS
     struct s_node *next; // 指向下一个节点
     struct s_node *prev; // 指向前一个节点
 } t_node;
@@ -27,7 +28,6 @@ typedef struct s_stack
     t_node *tail; // 栈底（尾部）
     int size;     // 栈大小
 } t_stack;
-
 typedef struct s_operation
 {
     char *op;                 // 操作字符串，如 "sa", "pb"
@@ -49,6 +49,8 @@ t_stack *init_stack(void);
 void push_swap(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
 int parse_input(t_stack *stack_a, int argc, char **argv);
 void normalize_stack(t_stack *a);
+void mark_LIS(t_stack *stack_a);
+
 void print_stacks(t_stack *stack_a, t_stack *stack_b);
 void print_rotation_plan(t_rotation_plan plan);
 
