@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:57:32 by helin             #+#    #+#             */
-/*   Updated: 2025/06/02 18:48:10 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/03 11:48:43 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,22 @@ void print_stacks(t_stack *stack_a, t_stack *stack_b)
 
     printf("----------------------\n");
     printf("Size A: %d, Size B: %d\n\n", stack_a->size, stack_b->size);
+}
+
+void print_rotation_plan(t_rotation_plan plan)
+{
+    printf("=== Rotation Plan ===\n");
+    printf("A index:       %d\n", plan.a_idx);
+    printf("B index:       %d\n", plan.b_idx);
+    printf("RA (a):        %d\n", plan.ra);
+    printf("RRA (a):       %d\n", plan.rra);
+    printf("RB (b):        %d\n", plan.rb);
+    printf("RRB (b):       %d\n", plan.rrb);
+    printf("Total moves:   %d\n", plan.total);
+    printf("Strategy:      %d (%s)\n", plan.strategy,
+           plan.strategy == 0 ? "rr (ra + rb)" :
+           plan.strategy == 1 ? "rrr (rra + rrb)" :
+           plan.strategy == 2 ? "ra + rrb" :
+                                "rra + rb");
+    printf("======================\n");
 }
