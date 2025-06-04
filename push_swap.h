@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/03 15:06:51 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/04 15:04:56 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_stack
     t_node *tail; // 栈底（尾部）
     int size;     // 栈大小
 } t_stack;
+
 typedef struct s_operation
 {
     char *op;                 // 操作字符串，如 "sa", "pb"

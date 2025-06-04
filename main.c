@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:53:51 by helin             #+#    #+#             */
-/*   Updated: 2025/06/04 13:12:11 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/04 15:09:27 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int main(int argc, char **argv)
     stack_a = init_stack();
     stack_b = init_stack();
     operations = NULL;
+    operations = add_operation(operations, "head");
     if (!stack_a || !stack_b)
     {
         free_stack(stack_a);

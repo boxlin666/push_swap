@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:54:53 by helin             #+#    #+#             */
-/*   Updated: 2025/06/02 16:46:50 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/04 15:10:07 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void print_operations(t_operation *operations)
 {
     t_operation *tmp;
 
-    tmp = operations;
+    tmp = operations->next;
     while (tmp)
     {
         write(1, tmp->op, strlen(tmp->op));

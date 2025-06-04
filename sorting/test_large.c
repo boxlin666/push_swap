@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/04 13:41:13 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/04 15:13:35 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,48 +26,48 @@ int find_ra_next(t_stack *stack, int min_val, int max_val)
 {
     if (stack->size == 0)
         return 0;
-    t_node *current = stack->head;
-    int min_step = stack->size;
+
     int step = 0;
-    while (current)
+    for (t_node *cur = stack->head; cur; cur = cur->next)
     {
-        if (current->value >= min_val && current->value < max_val)
-            break;
-        current = current->next;
+        if (cur->in_lis == 0 && cur->value >= min_val && cur->value < max_val)
+            return step;
         step++;
     }
-    if (min_step > step)
-        min_step = step;
-    return min_step;
+    // 整个栈都没找到符合条件的节点，返回 0（表示不旋转）
+    return 0;
 }
 
 int find_rra_next(t_stack *stack, int min_val, int max_val)
 {
     if (stack->size == 0)
         return 0;
-    t_node *current = stack->tail;
-    int min_step = -1 * stack->size;
-    int step = -1;
-    while (current)
+
+    int step = 1; // 从栈底算起，step=1 表示栈底位置
+    for (t_node *cur = stack->tail; cur; cur = cur->prev)
     {
-        if (current->value >= min_val && current->value < max_val)
-            break;
-        current = current->prev;
-        step--;
+        if (cur->in_lis == 0 && cur->value >= min_val && cur->value < max_val)
+            return -step;
+        step++;
     }
-    if (min_step < step)
-        min_step = step;
-    return min_step;
+    // 没找到符合条件的节点，返回 0（表示不做 rra）
+    return 0;
 }
 
 void slice_stack(t_stack *stack_a, t_stack *stack_b, t_operation **operations, int min_val, int max_val)
 {
-    int size = max_val - min_val;
     int forward_steps;
     int backward_steps;
-
-    while (size)
+    int count = 0;
+    for (t_node *n = stack_a->head; n; n = n->next)
     {
+        if (!n->in_lis && n->value >= min_val && n->value < max_val)
+            count++;
+    }
+    while (count)
+    {
+        while (stack_a->head->in_lis == 1)
+            do_ra(stack_a, operations);
         forward_steps = find_ra_next(stack_a, min_val, max_val);
         backward_steps = -1 * find_rra_next(stack_a, min_val, max_val);
         if (forward_steps <= backward_steps)
@@ -79,7 +79,7 @@ void slice_stack(t_stack *stack_a, t_stack *stack_b, t_operation **operations, i
         do_pb(stack_a, stack_b, operations);
         if (stack_b->head->value < (min_val + max_val) / 2)
             do_rb(stack_b, operations);
-        size--;
+        count--;
     }
 }
 
@@ -262,16 +262,18 @@ void move_next_element(t_stack *stack_a, t_stack *stack_b, t_operation **operati
 
 void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
 {
-    int i = stack_a->size;
+    int num_chunks = get_chunk_count(stack_a->size);
+    int chunk_size = stack_a->size / num_chunks;
+    int max_size = stack_a->size;
+    int i = 0;
 
-    t_node *current = stack_a->head;
-    while (i--)
+    while (i < num_chunks)
     {
-        if(current->in_lis)
-            do_ra(stack_a, operations);
+        if (i != num_chunks - 1)
+            slice_stack(stack_a, stack_b, operations, i * chunk_size, (i + 1) * chunk_size);
         else
-            do_pb(stack_a, stack_b, operations);
-        current = stack_a->head;
+            slice_stack(stack_a, stack_b, operations, i * chunk_size, max_size);
+        i++;
     }
     while (stack_b->size > 0)
     {
@@ -298,5 +300,4 @@ void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
         while (head_value--)
             do_ra(stack_a, operations);
     }
-    // print_stacks(stack_a, stack_b);    
 }
