@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/03 13:45:39 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/04 13:41:13 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ int find_rra_next(t_stack *stack, int min_val, int max_val)
         min_step = step;
     return min_step;
 }
-
-
 
 void slice_stack(t_stack *stack_a, t_stack *stack_b, t_operation **operations, int min_val, int max_val)
 {
@@ -264,19 +262,16 @@ void move_next_element(t_stack *stack_a, t_stack *stack_b, t_operation **operati
 
 void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
 {
-    int num_chunks = get_chunk_count(stack_a->size);
-    int chunk_size = stack_a->size / num_chunks;
+    int i = stack_a->size;
 
-    int max_size = stack_a->size;
-    int i = 0;
-
-    while (i < num_chunks)
+    t_node *current = stack_a->head;
+    while (i--)
     {
-        if (i != num_chunks - 1)
-            slice_stack(stack_a, stack_b, operations, i * chunk_size, (i + 1) * chunk_size);
+        if(current->in_lis)
+            do_ra(stack_a, operations);
         else
-            slice_stack(stack_a, stack_b, operations, i * chunk_size, max_size);
-        i++;
+            do_pb(stack_a, stack_b, operations);
+        current = stack_a->head;
     }
     while (stack_b->size > 0)
     {
@@ -290,7 +285,6 @@ void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
         }
         else
             move_next_element(stack_a, stack_b, operations);
-        // print_stacks(stack_a, stack_b);
     }
     int head_value = stack_a->head->value;
     if(head_value < stack_a->size / 2)

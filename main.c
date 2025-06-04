@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:53:51 by helin             #+#    #+#             */
-/*   Updated: 2025/06/03 15:08:59 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/04 13:12:11 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int main(int argc, char **argv)
         normalize_stack(stack_a);
         mark_LIS(stack_a);
         push_swap(stack_a, stack_b, &operations); // 调用排序函数
-        // print_stacks(stack_a, stack_b);
         optimize_operations(operations);
         operations = compress_operations(operations);
         print_operations(operations); // 输出操作序列
