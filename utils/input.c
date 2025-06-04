@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:57:32 by helin             #+#    #+#             */
-/*   Updated: 2025/06/04 13:23:00 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/04 20:00:05 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,7 @@ void print_stacks(t_stack *stack_a, t_stack *stack_b)
     {
         if (a)
         {
-            printf("%-5d ", a->value);
-            printf("%-5d", a->in_lis);
+            printf("%-10d ", a->value);
             a = a->next;
         }
         else

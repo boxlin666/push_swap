@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/04 15:04:56 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/04 19:46:52 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_rotation_plan{
 t_stack *init_stack(void);
 void push_swap(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
 int parse_input(t_stack *stack_a, int argc, char **argv);
+void quick_sort(int *arr, int low, int high);
 void normalize_stack(t_stack *a);
 void mark_LIS(t_stack *stack_a);
 
