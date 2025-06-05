@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/04 21:01:47 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/05 13:25:53 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,133 +14,132 @@
 #include <stdlib.h>
 #include <limits.h>
 
-void td_small_sort(t_stack *stack_a, t_stack *stack_b, int n, t_operation **operations)
+static int isqrt(int n)
 {
-    int v1, v2, v3;
-    if (n == 2)
-    {
-        if (stack_a->head->value > stack_a->head->next->value)
-            do_sa(stack_a, operations);
+    if (n <= 0) return 0;
+    int left = 1;
+    int right = n;
+    int mid;
+    int ans = 0;
+    while (left <= right) {
+        mid = left + ((right - left) >> 1);
+        // 为了避免 mid*mid 越界，改写为 mid <= n / mid
+        if (mid <= n / mid) {
+            ans = mid;
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
     }
+    return ans;
+}
+
+static double get_alpha(int n)
+{
+    if (n <= 100)
+        return 1.0;
+    else if (n <= 500)
+        return 1.3;
     else
-    {
-        v1 = stack_a->head->value;
-        v2 = stack_a->head->next->value;
-        v3 = stack_a->head->next->next->value;
-        if (v1 < v3 && v2 > v3)
-        {
-            do_ra(stack_a, operations);
-            do_sa(stack_a, operations);
-            do_rra(stack_a, operations);
-        }
-        else if (v1 > v2 && v1 < v3)
-        {
-            do_sa(stack_a, operations);
-        }
-        else if (v1 < v2 && v1 > v3)
-        {
-            do_ra(stack_a, operations);
-            do_ra(stack_a, operations);
-            do_pb(stack_a, stack_b, operations);
-            do_rra(stack_a, operations);
-            do_rra(stack_a, operations);
-            do_pa(stack_a, stack_b, operations);
-        }
-        else if (v1 > v3 && v2 < v3)
-        {
-            do_sa(stack_a, operations);
-            do_ra(stack_a, operations);
-            do_sa(stack_a, operations);
-            do_rra(stack_a, operations);
-        }
-        else if (v1 > v2 && v2 > v3)
-        {
-            do_sa(stack_a, operations);
-            do_ra(stack_a, operations);
-            do_ra(stack_a, operations);
-            do_pb(stack_a, stack_b, operations);
-            do_rra(stack_a, operations);
-            do_rra(stack_a, operations);
-            do_pa(stack_a, stack_b, operations);
-        }
-    }
+        return 1.5;
 }
 
-void choose_two_pivots(t_stack *stack, int n, int *pivot1, int *pivot2)
+void calc_initial_chunks(int N, int *out_chunk_count, int *out_chunk_size)
 {
-    int temp[n];
-    t_node *cur = stack->head;
-    for (int i = 0; i < n && cur; i++, cur = cur->next)
-        temp[i] = cur->value;
-
-    quick_sort(temp, 0, n - 1);
-
-    *pivot1 = temp[n / 3];
-    *pivot2 = temp[2 * n / 3];
-}
-
-void td_quicksort(t_stack *stack_a, t_stack *stack_b, int n, t_operation **operations)
-{
-    // print_stacks(stack_a, stack_b);
-    if (n <= 1)
-        return;
-    else if (n <= 3)
-    {
-        td_small_sort(stack_a, stack_b, n, operations);
+    if (N <= 0) {
+        *out_chunk_count = 1;
+        *out_chunk_size  = 1;
         return;
     }
-    int pivot1;
-    int pivot2;
-    choose_two_pivots(stack_a, n, &pivot1, &pivot2);
-    int t = n;
-    int x;
-    int count_low = 0;
-    int count_mid = 0;
-    int count_high = 0;
-    while (t--)
-    {
-        x = stack_a->head->value;
-        if (x < pivot1)
-        {
-            do_pb(stack_a, stack_b, operations);
-            do_rb(stack_b, operations);
-            count_low++;
-        }
-        else if (x < pivot2)
-        {
-            do_pb(stack_a, stack_b, operations);
-            count_mid++;
-        }
-        else
-        {
-            do_ra(stack_a, operations);
-            count_high++;
-        }
-    }
-    t = count_high;
-    while (t--)
-    {
-        do_rra(stack_a, operations);
-    }
-    td_quicksort(stack_a, stack_b, count_high, operations);
 
-    t = count_mid;
-    while (t--)
-    {
-        do_pa(stack_a, stack_b, operations);
+    double alpha = get_alpha(N);
+    int sqrt_n = isqrt(N);
+    int ccount = (int)(sqrt_n * alpha);  // 截断即相当于 floor(sqrt(N) * alpha)
+    if (ccount < 1) {
+        ccount = 1;
     }
-    td_quicksort(stack_a, stack_b, count_mid, operations);
 
-    t = count_low;
-    while (t--)
-    {
-        do_rrb(stack_b, operations);
-        do_pa(stack_a, stack_b, operations);
-    }
-    td_quicksort(stack_a, stack_b, count_low, operations);
+    // 用整数运算实现 ceil(N / ccount)：(N + ccount - 1) / ccount
+    int csize = (N + ccount - 1) / ccount;
+
+    *out_chunk_count = ccount;
+    *out_chunk_size  = csize;
 }
+
+int calc_dynamic_chunk(int remaining, int pushed_so_far, int *out_chunk_count)
+{
+    (void)pushed_so_far; // 如果不需要可去掉这一行
+
+    if (remaining <= 0) {
+        *out_chunk_count = 1;
+        return 0;
+    }
+
+    double alpha = get_alpha(remaining);
+    int sqrt_r = isqrt(remaining);
+    int ccount = (int)(sqrt_r * alpha);
+    if (ccount < 1) {
+        ccount = 1;
+    }
+
+    int csize = (remaining + ccount - 1) / ccount;
+    *out_chunk_count = ccount;
+    return csize;
+}
+
+int find_ra_next(t_stack *stack, int min_val, int max_val)
+{
+    t_node *current = stack->head;
+    int step = 0;
+    while (current)
+    {
+        if(current->value<max_val && current->value >= min_val)
+            return step;
+        step++;
+        current = current->next;     
+    }
+    return step;
+}
+
+int find_rra_next(t_stack *stack, int min_val, int max_val)
+{
+    t_node *current = stack->tail;
+    int step = 1;
+    while (current)
+    {
+        if(current->value<max_val && current->value >= min_val)
+            return step;
+        step++;
+        current = current->prev;     
+    }
+    return step;
+}
+
+int find_max_index(t_stack *stack)
+{
+    int max_num = -1;
+    int max_index = -1;
+    int step = 0;
+    t_node *current = stack->head;
+    while (current)
+    {
+        if(current->value > max_num)
+        {
+            max_index = step;
+            max_num = current->value;
+        }
+        step++;
+        current = current->next;
+    }
+    return step;
+}
+
 
 void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
 {
-    td_quicksort(stack_a, stack_b, stack_a->size, operations);
+    int chunk_count, chunk_size;
+    while(stack_a->size > 0)
+    {
+        chunk_size = calc_dynamic_chunk(stack_a->size, stack_b->size, &chunk_count);
+    }
 }
