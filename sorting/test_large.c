@@ -6,7 +6,22 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/05 17:27:40 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/07 15:01:39 by helin            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../push_swap.h"
+#include <stdlib.h>
+#include <limits.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test_large.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
+/*   Updated: 2025/06/04 21:01:47 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,295 +29,137 @@
 #include <stdlib.h>
 #include <limits.h>
 
-int get_chunk_count(int size)
+void td_small_sort(t_stack *stack_a, t_stack *stack_b, int n, t_operation **operations)
 {
-    if (size <= 100)
-        return 5;
-    else
-        return size / 50 + 5;
-}
-
-int find_ra_next(t_stack *stack, int min_val, int max_val)
-{
-    if (stack->size == 0)
-        return 0;
-    t_node *current = stack->head;
-    int min_step = stack->size;
-    int step = 0;
-    while (current)
+    int v1, v2, v3;
+    if (n == 2)
     {
-        if (current->value >= min_val && current->value < max_val)
-            break;
-        current = current->next;
-        step++;
+        if (stack_a->head->value > stack_a->head->next->value)
+            do_sa(stack_a, operations);
     }
-    if (min_step > step)
-        min_step = step;
-    return min_step;
-}
-
-int find_rra_next(t_stack *stack, int min_val, int max_val)
-{
-    if (stack->size == 0)
-        return 0;
-    t_node *current = stack->tail;
-    int min_step = -1 * stack->size;
-    int step = -1;
-    while (current)
+    else if (n == 3)
     {
-        if (current->value >= min_val && current->value < max_val)
-            break;
-        current = current->prev;
-        step--;
+        v1 = stack_a->head->value;
+        v2 = stack_a->head->next->value;
+        v3 = stack_a->head->next->next->value;
+        if (v1 < v3 && v2 > v3)
+        {
+            do_ra(stack_a, operations);
+            do_sa(stack_a, operations);
+            do_rra(stack_a, operations);
+        }
+        else if (v1 > v2 && v1 < v3)
+        {
+            do_sa(stack_a, operations);
+        }
+        else if (v1 < v2 && v1 > v3)
+        {
+            do_ra(stack_a, operations);
+            do_ra(stack_a, operations);
+            do_pb(stack_a, stack_b, operations);
+            do_rra(stack_a, operations);
+            do_rra(stack_a, operations);
+            do_pa(stack_a, stack_b, operations);
+        }
+        else if (v1 > v3 && v2 < v3)
+        {
+            do_sa(stack_a, operations);
+            do_ra(stack_a, operations);
+            do_sa(stack_a, operations);
+            do_rra(stack_a, operations);
+        }
+        else if (v1 > v2 && v2 > v3)
+        {
+            do_sa(stack_a, operations);
+            do_ra(stack_a, operations);
+            do_ra(stack_a, operations);
+            do_pb(stack_a, stack_b, operations);
+            do_rra(stack_a, operations);
+            do_rra(stack_a, operations);
+            do_pa(stack_a, stack_b, operations);
+        }
     }
-    if (min_step < step)
-        min_step = step;
-    return min_step;
 }
 
-
-
-void slice_stack(t_stack *stack_a, t_stack *stack_b, t_operation **operations, int min_val, int max_val)
+void choose_two_pivots(t_stack *stack, int n, int *pivot1, int *pivot2)
 {
-    int size = max_val - min_val;
-    int forward_steps;
-    int backward_steps;
+    int temp[n];
+    t_node *cur = stack->head;
+    for (int i = 0; i < n && cur; i++, cur = cur->next)
+        temp[i] = cur->value;
 
-    while (size)
+    quick_sort(temp, 0, n - 1);
+
+    *pivot1 = temp[n / 3];
+    *pivot2 = temp[2 * n / 3];
+}
+
+void td_quicksort(t_stack *stack_a, t_stack *stack_b, int n, t_operation **operations)
+{
+    // print_stacks(stack_a, stack_b);
+    if (n <= 1)
+        return;
+    else if (n <= 312)
     {
-        forward_steps = find_ra_next(stack_a, min_val, max_val);
-        backward_steps = -1 * find_rra_next(stack_a, min_val, max_val);
-        if (forward_steps <= backward_steps)
-            while (forward_steps--)
-                do_ra(stack_a, operations);
+        td_small_sort(stack_a, stack_b, n, operations);
+        return;
+    }
+    int pivot1;
+    int pivot2;
+    choose_two_pivots(stack_a, n, &pivot1, &pivot2);
+    int t = n;
+    int x;
+    int count_low = 0;
+    int count_mid = 0;
+    int count_high = 0;
+    while (t--)
+    {
+        x = stack_a->head->value;
+        if (x < pivot1)
+        {
+            do_pb(stack_a, stack_b, operations);
+            do_rb(stack_b, operations);
+            count_low++;
+        }
+        else if (x < pivot2)
+        {
+            do_pb(stack_a, stack_b, operations);
+            count_mid++;
+        }
         else
-            while (backward_steps--)
-                do_rra(stack_a, operations);
-        do_pb(stack_a, stack_b, operations);
-        if (stack_b->head->value < (min_val + max_val) / 2)
-            do_rb(stack_b, operations);
-        size--;
-    }
-}
-
-int max(int a, int b)
-{
-    if(a >= b)
-        return a;
-    return b;
-}
-
-int get_val_of_idx(t_stack *stack, int index)
-{
-    t_node *current = stack->head;
-    int step=0;
-    while(step++)
-    {
-        if(step == index)
-            return current->value;
-        current = current->next;
-    }
-    return 0;
-}
-int get_target_index(t_stack *stack_a, int value)
-{
-    if (stack_a->size == 0)
-        return 0;
-
-    int min_val = __INT_MAX__;
-    int max_val = -__INT_MAX__;
-
-    // 先找出最小值和最大值（用于环形插入）
-    t_node *tmp = stack_a->head;
-    while (tmp)
-    {
-        if (tmp->value < min_val)
-            min_val = tmp->value;
-        if (tmp->value > max_val)
-            max_val = tmp->value;
-        tmp = tmp->next;
-    }
-
-    // 如果 value 是比最小还小或比最大还大，应该插入在最小值之前
-    if (value < min_val || value > max_val)
-    {
-        t_node *node = stack_a->head;
-        int i = 0;
-        while (node)
-        {
-            if (node->value == min_val)
-                return i;
-            node = node->next;
-            i++;
-        }
-    }
-
-    // 否则在中间插入，找第一个满足 current < value < next 的位置
-    t_node *node = stack_a->head;
-    t_node *next = node->next;
-    int i = 1;
-    while (next)
-    {
-        if (node->value < value && value < next->value)
-            return i;
-        node = next;
-        next = next->next;
-        i++;
-    }
-
-    return 0;
-}
-
-t_rotation_plan compute_rotation_plan(int a_idx, int b_idx, int size_a, int size_b, int a_val, int b_val) {
-    t_rotation_plan best = {0};
-
-    int ra = a_idx;
-    int rra = size_a - a_idx;
-    int rb = b_idx;
-    int rrb = size_b - b_idx;
-
-    int plans[4];
-    plans[0] = max(ra, rb);            // 同时正转 → rr
-    plans[1] = max(rra, rrb);          // 同时反转 → rrr
-    plans[2] = ra + rrb;               // A正转，B反转
-    plans[3] = rra + rb;               // A反转，B正转
-
-    int min = plans[0];
-    int strat = 0;
-    for (int i = 0; i < 4; i++) {
-        if (plans[i] < min) {
-            min = plans[i];
-            strat = i;
-        }
-    }
-
-    best.a_idx = a_idx;
-    best.b_idx = b_idx;
-    best.ra = ra;
-    best.rra = rra;
-    best.rb = rb;
-    best.rrb = rrb;
-    best.total = min + 2 * max(a_val, b_val) - a_val - b_val;
-    best.strategy = strat;
-
-    return best;
-}
-
-void move_next_element(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
-{
-    int b_idx=0;
-    t_node *current = stack_b->head;
-    int a_idx;
-    t_rotation_plan current_plan;
-    t_rotation_plan best_plan;
-    int a_val;
-    while (current)
-    {
-        a_idx = get_target_index(stack_a, current->value);
-        a_val = get_val_of_idx(stack_a, a_idx);
-        current_plan = compute_rotation_plan(a_idx, b_idx, stack_a->size, stack_b->size, a_val, current->value);
-        if(b_idx==0 || current_plan.total < best_plan.total)
-            best_plan = current_plan;
-        current = current->next;
-        b_idx++;
-    }
-    // print_rotation_plan(best_plan);
-    if(best_plan.strategy == 0)
-    {
-        while (best_plan.ra>0)
         {
             do_ra(stack_a, operations);
-            best_plan.ra--;
+            count_high++;
         }
-        while (best_plan.rb>0)
-        {
-            do_rb(stack_b, operations);
-            best_plan.rb--;
-        }      
     }
-    else if(best_plan.strategy == 1)
+    t = count_high;
+    if (t != stack_a->size)
     {
-        while (best_plan.rra>0)
+        while (t--)
         {
             do_rra(stack_a, operations);
-            best_plan.rra--;
         }
-        while (best_plan.rrb>0)
-        {
-            do_rrb(stack_b, operations);
-            best_plan.rrb--;
-        } 
     }
-    else if(best_plan.strategy == 2)
+
+    td_quicksort(stack_a, stack_b, count_high, operations);
+
+    t = count_mid;
+    while (t--)
     {
-        while (best_plan.ra>0)
-        {
-            do_ra(stack_a, operations);
-            best_plan.ra--;
-        }
-        while (best_plan.rrb>0)
-        {
-            do_rrb(stack_b, operations);
-            best_plan.rrb--;
-        }
+        do_pa(stack_a, stack_b, operations);
     }
-    else if(best_plan.strategy == 3)
+    td_quicksort(stack_a, stack_b, count_mid, operations);
+
+    t = count_low;
+    while (t--)
     {
-        while (best_plan.rra>0)
-        {
-            do_rra(stack_a, operations);
-            best_plan.rra--;
-        }
-        while (best_plan.rb>0)
-        {
-            do_rb(stack_b, operations);
-            best_plan.rb--;
-        }
+        do_rrb(stack_b, operations);
+        do_pa(stack_a, stack_b, operations);
     }
-    do_pa(stack_a, stack_b, operations);
+    td_quicksort(stack_a, stack_b, count_low, operations);
 }
 
 void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
 {
-    int num_chunks = get_chunk_count(stack_a->size);
-    int chunk_size = stack_a->size / num_chunks;
-
-    int max_size = stack_a->size;
-    int i = 0;
-
-    while (i < num_chunks)
-    {
-        if (i != num_chunks - 1)
-            slice_stack(stack_a, stack_b, operations, i * chunk_size, (i + 1) * chunk_size);
-        else
-            slice_stack(stack_a, stack_b, operations, i * chunk_size, max_size);
-        i++;
-    }
-    while (stack_b->size > 0)
-    {
-        if(stack_a->size == 0)
-            do_pa(stack_a, stack_b, operations);
-        else if(stack_a->size == 1)
-        {
-            do_pa(stack_a, stack_b, operations);
-            if(stack_a->head->value > stack_a->tail->value)
-                do_sa(stack_a, operations);
-        }
-        else
-            move_next_element(stack_a, stack_b, operations);
-        // print_stacks(stack_a, stack_b);
-    }
-    int head_value = stack_a->head->value;
-    if(head_value < stack_a->size / 2)
-    {
-        while (head_value--)
-            do_rra(stack_a, operations);
-    }
-    else
-    {
-        head_value = stack_a->size - head_value;
-        while (head_value--)
-            do_ra(stack_a, operations);
-    }
-    // print_stacks(stack_a, stack_b);    
+    td_quicksort(stack_a, stack_b, stack_a->size, operations);
 }
