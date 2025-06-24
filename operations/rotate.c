@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:38:12 by helin             #+#    #+#             */
-/*   Updated: 2025/05/26 13:52:19 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/24 18:59:48 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void do_ra(t_stack *stack_a, t_operation **operations)
 {
     t_node *first;
 
-    if (stack_a->size < 2) // 栈 a 元素少于 2 个，无需操作
+    if (stack_a->size < 2)
         return;
     first = stack_a->head;
-    stack_a->head = first->next; // 新栈顶是第二个元素
+    stack_a->head = first->next;
     stack_a->head->prev = NULL;
     first->next = NULL;
     first->prev = stack_a->tail; // 原栈顶连接到原栈底

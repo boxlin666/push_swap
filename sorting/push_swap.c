@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:58:41 by helin             #+#    #+#             */
-/*   Updated: 2025/06/02 14:18:58 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/24 17:10:35 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ int is_sorted(t_stack *stack)
 {
     t_node *current;
 
-    if (stack->size <= 1) // 空栈或只有一个元素，视为已排序
+    if (stack->size <= 1)
         return (1);
     current = stack->head;
     while (current && current->next)
     {
         if (current->value > current->next->value)
-            return (0); // 当前值大于下一个值，未排序
+            return (0); 
         current = current->next;
     }
-    return (1); // 遍历完成，栈已排序
+    return (1);
 }
 
 void push_swap(t_stack *stack_a, t_stack *stack_b, t_operation **operations)

@@ -13,7 +13,7 @@ SRCS = $(SRCS_DIR)/main.c \
        $(SRCS_DIR)/operations/reverse_rotate.c \
        $(SRCS_DIR)/sorting/sort_small.c \
        $(SRCS_DIR)/sorting/sort_medium.c \
-       $(SRCS_DIR)/sorting/test_large.c \
+       $(SRCS_DIR)/sorting/sort_large.c \
        $(SRCS_DIR)/sorting/push_swap.c \
        $(SRCS_DIR)/utils/operations.c \
        $(SRCS_DIR)/utils/parse.c \
