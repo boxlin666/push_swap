@@ -6,14 +6,13 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 13:36:03 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 16:33:30 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include <stddef.h>
-
 
 typedef struct s_node
 {
@@ -87,6 +86,8 @@ void					sort_medium(t_stack *stack_a, t_stack *stack_b,
 void					sort_large(t_stack *stack_a, t_stack *stack_b,
 							t_operation **operations);
 t_operation				*add_operation(t_operation *head, const char *op);
+void					append_op(t_operation **head, t_operation **tail,
+							const char *op);
 t_operation				*optimize_operations(t_operation *head);
 t_operation				*compress_operations(t_operation *head);
 void					free_operations(t_operation *operations);

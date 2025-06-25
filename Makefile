@@ -6,7 +6,7 @@
 #    By: helin <helin@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/25 12:10:40 by helin             #+#    #+#              #
-#    Updated: 2025/06/25 12:10:44 by helin            ###   ########.fr        #
+#    Updated: 2025/06/25 16:34:46 by helin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SRCS = $(SRCS_DIR)/main.c \
        $(SRCS_DIR)/utils/parse.c \
        $(SRCS_DIR)/utils/error.c \
        $(SRCS_DIR)/utils/memory.c \
+       $(SRCS_DIR)/utils/compress.c \
+       $(SRCS_DIR)/utils/optimize.c \
        $(SRCS_DIR)/utils/input.c
 OBJS = $(SRCS:.c=.o)
 
