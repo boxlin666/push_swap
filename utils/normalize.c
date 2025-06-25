@@ -1,29 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input.c                                            :+:      :+:    :+:   */
+/*   normalize.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:57:32 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 15:26:54 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 14:59:42 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"push_swap.h"
 #include<stdlib.h>
-
-t_stack *init_stack(void)
-{
-    t_stack *stack;
-    stack = malloc(sizeof(t_stack));
-    if (!stack)
-        return (NULL);
-    stack->head = NULL;
-    stack->tail = NULL;
-    stack->size = 0;
-    return (stack);
-}
 
 void swap(int *a, int *b)
 {
@@ -73,25 +61,25 @@ int get_index(int *sorted, int size, int value)
     return -1;
 }
 
-void normalize_stack(t_stack *a)
+void normalize_stack(t_context *ctx)
 {
     int     *arr;
     int     i = 0;
-    t_node  *cur = a->head;
+    t_node  *cur = ctx->stack_a->head;
 
-    arr = malloc(sizeof(int) * a->size);
-    // if (!arr)
-    //     error_exit();
+    arr = malloc(sizeof(int) * ctx->stack_a->size);
+    if (!arr)
+        error_exit(ctx);
     while (cur)
     {
         arr[i++] = cur->value;
         cur = cur->next;
     }
-    quick_sort(arr, 0, a->size - 1);
-    cur = a->head;
+    quick_sort(arr, 0, ctx->stack_a->size - 1);
+    cur = ctx->stack_a->head;
     while (cur)
     {
-        cur->value = get_index(arr, a->size, cur->value);
+        cur->value = get_index(arr, ctx->stack_a->size, cur->value);
         cur = cur->next;
     }
 

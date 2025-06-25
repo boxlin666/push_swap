@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:54:53 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 12:13:28 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 15:26:45 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 t_operation *add_operation(t_operation *head, const char *op)
 {
     t_operation *new_op = malloc(sizeof(t_operation));
-    if (!new_op)
-        error_exit();
+    // if (!new_op)
+    //     error_exit();
 
     new_op->op = strdup(op);
-    if (!new_op->op)
-    {
-        free(new_op);
-        error_exit();
-    }
+    // if (!new_op->op)
+    // {
+    //     free(new_op);
+    //     error_exit();
+    // }
 
     new_op->next = NULL;
 
