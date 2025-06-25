@@ -6,11 +6,11 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:54:53 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 11:31:42 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 12:12:06 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "push_swap.h"
 
 int	get_min_index(t_stack *stack_a)
 {

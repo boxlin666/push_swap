@@ -6,11 +6,11 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:54:08 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 10:53:40 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 12:12:11 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "push_swap.h"
 #include <unistd.h>
 
 void	sort_two(t_stack *stack_a, t_operation **operations)

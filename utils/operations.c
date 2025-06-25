@@ -6,36 +6,39 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:54:53 by helin             #+#    #+#             */
-/*   Updated: 2025/06/04 15:10:07 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 12:13:28 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "push_swap.h"
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 
 t_operation *add_operation(t_operation *head, const char *op)
 {
-    t_operation *new_op;
-    t_operation *tmp;
+    t_operation *new_op = malloc(sizeof(t_operation));
+    if (!new_op)
+        error_exit();
 
-    new_op = malloc(sizeof(t_operation));
-        //error_exit();
     new_op->op = strdup(op);
     if (!new_op->op)
     {
         free(new_op);
-        //error_exit();
+        error_exit();
     }
+
     new_op->next = NULL;
+
     if (!head)
-        return (new_op);
-    tmp = head;
+        return new_op;
+
+    t_operation *tmp = head;
     while (tmp->next)
         tmp = tmp->next;
     tmp->next = new_op;
-    return (head);
+
+    return head;
 }
 
 void print_operations(t_operation *operations)

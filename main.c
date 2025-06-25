@@ -6,39 +6,34 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:53:51 by helin             #+#    #+#             */
-/*   Updated: 2025/06/22 16:20:16 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 13:35:46 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"push_swap.h"
+#include "push_swap.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    t_stack *stack_a;
-    t_stack *stack_b;
-    t_operation *operations;
+	t_context	ctx;
 
-    stack_a = init_stack();
-    stack_b = init_stack();
-    operations = NULL;
-    operations = add_operation(operations, "head");
-    if (!stack_a || !stack_b)
-    {
-        free_stack(stack_a);
-        free_stack(stack_b);
-        error_exit();
-    }
-    if (parse_input(stack_a, argc, argv)) // 解析输入，有参数返回 1
-    {
-        normalize_stack(stack_a);
-        mark_LIS(stack_a);
-        push_swap(stack_a, stack_b, &operations); // 调用排序函数
-        optimize_operations(operations);
-        operations = compress_operations(operations);
-        print_operations(operations); // 输出操作序列
-        free_operations(operations); // 释放操作序列内存
-    }
-    free_stack(stack_a); // 释放栈内存
-    free_stack(stack_b);
-    return (0);
+	ctx.stack_a = init_stack();
+	ctx.stack_b = init_stack();
+	ctx.operations = NULL;
+	ctx.operations = add_operation(ctx.operations, "head");
+	if (!ctx.stack_a || !ctx.stack_b)
+		error_exit(&ctx);
+	if (parse_input(&ctx, argc, argv))
+	{
+		normalize_stack(ctx.stack_a);
+		push_swap(ctx.stack_a, ctx.stack_b, &ctx.operations);
+		optimize_operations(ctx.operations);
+		ctx.operations = compress_operations(ctx.operations);
+		print_operations(ctx.operations);
+		free_operations(ctx.operations);
+	}
+	else
+	{
+		error_exit(&ctx);
+	}
+	return (0);
 }

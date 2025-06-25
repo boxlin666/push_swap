@@ -6,11 +6,11 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:58:41 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 11:32:35 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 12:11:52 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "push_swap.h"
 
 int	is_sorted(t_stack *stack)
 {

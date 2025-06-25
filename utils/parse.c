@@ -6,28 +6,30 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:13:37 by helin             #+#    #+#             */
-/*   Updated: 2025/05/26 15:30:51 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 14:00:19 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "push_swap.h"
+#include "libft.h"
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 
-void push_to_stack(t_stack *stack, int value)
+void push_to_stack(t_context *ctx, int value)
 {
     t_node *new_node = malloc(sizeof(t_node));
+    t_stack *stack = ctx->stack_a;
     if (!new_node)
-        error_exit();
+        error_exit(ctx);
     new_node->value = value;
-    new_node->next = NULL; // 新节点将是栈底，next 为空
-    new_node->prev = stack->tail; // 连接到之前的栈底
+    new_node->next = NULL;
+    new_node->prev = stack->tail;
     if (stack->tail)
-        stack->tail->next = new_node; // 更新之前的栈底的 next 指针
+        stack->tail->next = new_node;
     else
-        stack->head = new_node; // 如果栈为空，head 指向新节点
-    stack->tail = new_node; // 更新栈底为新节点
+        stack->head = new_node;
+    stack->tail = new_node;
     stack->size++;
 }
 
@@ -90,94 +92,85 @@ void free_split(char **numbers)
     free(numbers);
 }
 
-char **split_input(const char *str)
+int ft_isspace(char c)
 {
-    int count = 0;
-    int i = 0;
-    char *tmp = strdup(str);
-    if (!tmp)
-        return NULL;
-    char *token = strtok(tmp, " ");
-    while (token)
-    {
-        count++;
-        token = strtok(NULL, " ");
-    }
-    free(tmp);
-    char **numbers = malloc(sizeof(char *) * (count + 1));
-    if (!numbers)
-        return NULL;
-    tmp = strdup(str);
-    if (!tmp)
-    {
-        free(numbers);
-        return NULL;
-    }
-    token = strtok(tmp, " ");
-    while (token)
-    {
-        numbers[i] = strdup(token);
-        if (!numbers[i])
-        {
-            free_split(numbers);
-            free(tmp);
-            return NULL;
-        }
-        i++;
-        token = strtok(NULL, " ");
-    }
-    numbers[i] = NULL;
-    free(tmp);
-    return numbers;
+    if(c == ' ' || c == '\t' || c== '\f' || c== '\n' || c== '\t' || c== '\v')
+        return 1;
+    return 0;
 }
 
-
-
-int parse_input(t_stack *stack_a, int argc, char **argv)
+char **split_by_space(const char *str)
 {
-    int i;
-    long num;
-    char **numbers;
+    int count = 0, len = strlen(str);
+    char **result = NULL;
+    const char *start = NULL;
 
+    for (int j = 0; j <= len; j++)
+    {
+        if (!ft_isspace(str[j]) && !start)
+            start = &str[j];
+        else if ((ft_isspace(str[j]) || str[j] == '\0') && start)
+        {
+            int word_len = &str[j] - start;
+            char *word = malloc(word_len + 1);
+            if (!word)
+                return free_split(result), NULL;
+            strncpy(word, start, word_len);
+            word[word_len] = '\0';
+            char **temp = realloc(result, sizeof(char *) * (count + 2));
+            if (!temp)
+                return free_split(result), NULL;
+            result = temp;
+            result[count++] = word;
+            result[count] = NULL;
+            start = NULL;
+        }
+    }
+    return result;
+}
+
+int process_number_list(t_context *ctx, char **list)
+{
+    int i = 0;
+    long num;
+
+    while (list[i])
+    {
+        if (!is_valid_number(list[i], &num) || num < INT_MIN || num > INT_MAX)
+        {
+            free_split(list);
+            error_exit(ctx);
+        }
+        push_to_stack(ctx, (int)num);
+        i++;
+    }
+    return 1;
+}
+
+int parse_input(t_context *ctx, int argc, char **argv)
+{
     if (argc < 2)
         return 0;
-    i = 1;
+
     if (argc == 2)
     {
-        numbers = split_input(argv[1]);
-        if (!numbers)
-            error_exit();
-        i = 0;
-        while (numbers[i])
-        {
-            if (!is_valid_number(numbers[i], &num))
-            {
-                free_split(numbers);
-                error_exit();
-            }
-            if (num < INT_MIN || num > INT_MAX)
-            {
-                free_split(numbers);
-                error_exit();
-            }
-            push_to_stack(stack_a, (int)num);
-            i++;
-        }
-        free_split(numbers);
+        char **nums = split_by_space(argv[1]);
+        if (!nums)
+            error_exit(ctx);
+        process_number_list(ctx, nums);
+        free_split(nums);
     }
     else
     {
-        while (i < argc)
+        for (int i = 1; i < argc; i++)
         {
-            if (!is_valid_number(argv[i], &num))
-                error_exit();
-            if (num < INT_MIN || num > INT_MAX)
-                error_exit();
-            push_to_stack(stack_a, (int)num);
-            i++;
+            long num;
+            if (!is_valid_number(argv[i], &num) || num < INT_MIN || num > INT_MAX)
+                error_exit(ctx);
+            push_to_stack(ctx, (int)num);
         }
     }
-    if (has_duplicates(stack_a))
-        error_exit();
+    if (has_duplicates(ctx->stack_a))
+        error_exit(ctx);
     return 1;
 }

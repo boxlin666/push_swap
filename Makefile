@@ -1,10 +1,20 @@
-# 基本配置
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: helin <helin@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/06/25 12:10:40 by helin             #+#    #+#              #
+#    Updated: 2025/06/25 12:10:44 by helin            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = push_swap
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 INCLUDES = -Iincludes -Ilibft
 
-# 源文件和目标文件
 SRCS_DIR = .
 SRCS = $(SRCS_DIR)/main.c \
        $(SRCS_DIR)/operations/swap.c \
@@ -22,7 +32,6 @@ SRCS = $(SRCS_DIR)/main.c \
        $(SRCS_DIR)/utils/input.c
 OBJS = $(SRCS:.c=.o)
 
-# libft 配置
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
@@ -40,7 +49,6 @@ BONUS_SRCS = $(BONUS_DIR)/checker.c \
              $(SRCS_DIR)/utils/helpers.c
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
-# 规则
 .PHONY: all clean fclean re bonus
 
 all: $(NAME)

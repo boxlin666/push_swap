@@ -6,11 +6,11 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:38:34 by helin             #+#    #+#             */
-/*   Updated: 2025/06/24 18:59:40 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 12:11:24 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "push_swap.h"
 
 void do_rra(t_stack *stack_a, t_operation **operations)
 {
