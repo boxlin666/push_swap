@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/24 17:11:10 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 11:59:57 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int find_ra_next(t_stack *stack, int min_val, int max_val)
             return step;
         step++;
     }
-    // 整个栈都没找到符合条件的节点，返回 0（表示不旋转）
     return 0;
 }
 
@@ -43,14 +42,13 @@ int find_rra_next(t_stack *stack, int min_val, int max_val)
     if (stack->size == 0)
         return 0;
 
-    int step = 1; // 从栈底算起，step=1 表示栈底位置
+    int step = 1;
     for (t_node *cur = stack->tail; cur; cur = cur->prev)
     {
         if (cur->in_lis == 0 && cur->value >= min_val && cur->value < max_val)
             return -step;
         step++;
     }
-    // 没找到符合条件的节点，返回 0（表示不做 rra）
     return 0;
 }
 
@@ -109,36 +107,29 @@ int get_target_index(t_stack *stack_a, int value)
 
     int min_val = __INT_MAX__;
     int max_val = -__INT_MAX__;
-
-    // 先找出最小值和最大值（用于环形插入）
-    t_node *tmp = stack_a->head;
-    while (tmp)
-    {
-        if (tmp->value < min_val)
-            min_val = tmp->value;
-        if (tmp->value > max_val)
-            max_val = tmp->value;
-        tmp = tmp->next;
-    }
-
-    // 如果 value 是比最小还小或比最大还大，应该插入在最小值之前
-    if (value < min_val || value > max_val)
-    {
-        t_node *node = stack_a->head;
-        int i = 0;
-        while (node)
-        {
-            if (node->value == min_val)
-                return i;
-            node = node->next;
-            i++;
-        }
-    }
-
-    // 否则在中间插入，找第一个满足 current < value < next 的位置
+    int min_index = 0;
+    int i = 0;
     t_node *node = stack_a->head;
+
+    while (node)
+    {
+        if (node->value < min_val)
+        {
+            min_val = node->value;
+            min_index = i;
+        }
+        if (node->value > max_val)
+            max_val = node->value;
+        node = node->next;
+        i++;
+    }
+
+    if (value < min_val || value > max_val)
+        return min_index;
+
+    node = stack_a->head;
     t_node *next = node->next;
-    int i = 1;
+    i = 1;
     while (next)
     {
         if (node->value < value && value < next->value)
@@ -150,6 +141,7 @@ int get_target_index(t_stack *stack_a, int value)
 
     return 0;
 }
+
 
 t_rotation_plan compute_rotation_plan(int a_idx, int b_idx, int size_a, int size_b, int a_val, int b_val)
 {
@@ -189,77 +181,59 @@ t_rotation_plan compute_rotation_plan(int a_idx, int b_idx, int size_a, int size
     return best;
 }
 
-void move_next_element(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
+t_rotation_plan find_best_rotation_plan(t_stack *stack_a, t_stack *stack_b)
 {
     int b_idx = 0;
     t_node *current = stack_b->head;
-    int a_idx;
     t_rotation_plan current_plan;
     t_rotation_plan best_plan;
-    int a_val;
+    int a_idx, a_val;
+
     while (current)
     {
         a_idx = get_target_index(stack_a, current->value);
         a_val = get_val_of_idx(stack_a, a_idx);
-        current_plan = compute_rotation_plan(a_idx, b_idx, stack_a->size, stack_b->size, a_val, current->value);
+        current_plan = compute_rotation_plan(
+            a_idx, b_idx,
+            stack_a->size, stack_b->size,
+            a_val, current->value);
         if (b_idx == 0 || current_plan.total < best_plan.total)
             best_plan = current_plan;
         current = current->next;
         b_idx++;
     }
-    // print_rotation_plan(best_plan);
-    if (best_plan.strategy == 0)
+    return best_plan;
+}
+
+void execute_rotation_plan(t_stack *stack_a, t_stack *stack_b,
+                           t_rotation_plan plan, t_operation **operations)
+{
+    if (plan.strategy == 0)
     {
-        while (best_plan.ra > 0)
-        {
-            do_ra(stack_a, operations);
-            best_plan.ra--;
-        }
-        while (best_plan.rb > 0)
-        {
-            do_rb(stack_b, operations);
-            best_plan.rb--;
-        }
+        while (plan.ra-- > 0) do_ra(stack_a, operations);
+        while (plan.rb-- > 0) do_rb(stack_b, operations);
     }
-    else if (best_plan.strategy == 1)
+    else if (plan.strategy == 1)
     {
-        while (best_plan.rra > 0)
-        {
-            do_rra(stack_a, operations);
-            best_plan.rra--;
-        }
-        while (best_plan.rrb > 0)
-        {
-            do_rrb(stack_b, operations);
-            best_plan.rrb--;
-        }
+        while (plan.rra-- > 0) do_rra(stack_a, operations);
+        while (plan.rrb-- > 0) do_rrb(stack_b, operations);
     }
-    else if (best_plan.strategy == 2)
+    else if (plan.strategy == 2)
     {
-        while (best_plan.ra > 0)
-        {
-            do_ra(stack_a, operations);
-            best_plan.ra--;
-        }
-        while (best_plan.rrb > 0)
-        {
-            do_rrb(stack_b, operations);
-            best_plan.rrb--;
-        }
+        while (plan.ra-- > 0) do_ra(stack_a, operations);
+        while (plan.rrb-- > 0) do_rrb(stack_b, operations);
     }
-    else if (best_plan.strategy == 3)
+    else if (plan.strategy == 3)
     {
-        while (best_plan.rra > 0)
-        {
-            do_rra(stack_a, operations);
-            best_plan.rra--;
-        }
-        while (best_plan.rb > 0)
-        {
-            do_rb(stack_b, operations);
-            best_plan.rb--;
-        }
+        while (plan.rra-- > 0) do_rra(stack_a, operations);
+        while (plan.rb-- > 0) do_rb(stack_b, operations);
     }
+}
+
+void move_next_element(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
+{
+    t_rotation_plan best_plan = find_best_rotation_plan(stack_a, stack_b);
+    execute_rotation_plan(stack_a, stack_b, best_plan, operations);
     do_pa(stack_a, stack_b, operations);
 }
 

@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/04 19:46:52 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 11:32:18 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void do_rrr(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
 
 void sort_small(t_stack *stack_a, t_operation **operations);
 void sort_medium(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
-void test_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
+void sort_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations);
 t_operation *add_operation(t_operation *head, const char *op);
 t_operation *optimize_operations(t_operation *head);
 t_operation *compress_operations(t_operation *head);
