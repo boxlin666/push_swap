@@ -6,56 +6,56 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:31:08 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:31:17 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:47:46 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	do_pa(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
+void	do_pa(t_context *ctx)
 {
 	t_node	*temp;
 
-	if (stack_b->size == 0)
+	if (ctx->stack_b->size == 0)
 		return ;
-	temp = stack_b->head;
-	stack_b->head = stack_b->head->next;
-	if (stack_b->head)
-		stack_b->head->prev = NULL;
+	temp = ctx->stack_b->head;
+	ctx->stack_b->head = ctx->stack_b->head->next;
+	if (ctx->stack_b->head)
+		ctx->stack_b->head->prev = NULL;
 	else
-		stack_b->tail = NULL;
-	stack_b->size--;
-	temp->next = stack_a->head;
+		ctx->stack_b->tail = NULL;
+	ctx->stack_b->size--;
+	temp->next = ctx->stack_a->head;
 	temp->prev = NULL;
-	if (stack_a->head)
-		stack_a->head->prev = temp;
+	if (ctx->stack_a->head)
+		ctx->stack_a->head->prev = temp;
 	else
-		stack_a->tail = temp;
-	stack_a->head = temp;
-	stack_a->size++;
-	*operations = add_operation(*operations, "pa");
+		ctx->stack_a->tail = temp;
+	ctx->stack_a->head = temp;
+	ctx->stack_a->size++;
+	ctx->operations = add_operation(ctx->operations, "pa");
 }
 
-void	do_pb(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
+void	do_pb(t_context *ctx)
 {
 	t_node	*temp;
 
-	if (stack_a->size == 0)
+	if (ctx->stack_a->size == 0)
 		return ;
-	temp = stack_a->head;
-	stack_a->head = stack_a->head->next;
-	if (stack_a->head)
-		stack_a->head->prev = NULL;
+	temp = ctx->stack_a->head;
+	ctx->stack_a->head = ctx->stack_a->head->next;
+	if (ctx->stack_a->head)
+		ctx->stack_a->head->prev = NULL;
 	else
-		stack_a->tail = NULL;
-	stack_a->size--;
-	temp->next = stack_b->head;
+		ctx->stack_a->tail = NULL;
+	ctx->stack_a->size--;
+	temp->next = ctx->stack_b->head;
 	temp->prev = NULL;
-	if (stack_b->head)
-		stack_b->head->prev = temp;
+	if (ctx->stack_b->head)
+		ctx->stack_b->head->prev = temp;
 	else
-		stack_b->tail = temp;
-	stack_b->head = temp;
-	stack_b->size++;
-	*operations = add_operation(*operations, "pb");
+		ctx->stack_b->tail = temp;
+	ctx->stack_b->head = temp;
+	ctx->stack_b->size++;
+	ctx->operations = add_operation(ctx->operations, "pb");
 }

@@ -6,46 +6,46 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:38:34 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 13:49:45 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:48:35 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	do_rra(t_stack *stack_a, t_operation **operations)
+void	do_rra(t_context *ctx)
 {
 	t_node	*last;
 
-	if (stack_a->size < 2)
+	if (ctx->stack_a->size < 2)
 		return ;
-	last = stack_a->tail;
-	stack_a->tail = last->prev;
-	stack_a->tail->next = NULL;
+	last = ctx->stack_a->tail;
+	ctx->stack_a->tail = last->prev;
+	ctx->stack_a->tail->next = NULL;
 	last->prev = NULL;
-	last->next = stack_a->head;
-	stack_a->head->prev = last;
-	stack_a->head = last;
-	*operations = add_operation(*operations, "rra");
+	last->next = ctx->stack_a->head;
+	ctx->stack_a->head->prev = last;
+	ctx->stack_a->head = last;
+	ctx->operations = add_operation(ctx->operations, "rra");
 }
 
-void	do_rrb(t_stack *stack_b, t_operation **operations)
+void	do_rrb(t_context *ctx)
 {
 	t_node	*last;
 
-	if (stack_b->size < 2)
+	if (ctx->stack_b->size < 2)
 		return ;
-	last = stack_b->tail;
-	stack_b->tail = last->prev;
-	stack_b->tail->next = NULL;
+	last = ctx->stack_b->tail;
+	ctx->stack_b->tail = last->prev;
+	ctx->stack_b->tail->next = NULL;
 	last->prev = NULL;
-	last->next = stack_b->head;
-	stack_b->head->prev = last;
-	stack_b->head = last;
-	*operations = add_operation(*operations, "rrb");
+	last->next = ctx->stack_b->head;
+	ctx->stack_b->head->prev = last;
+	ctx->stack_b->head = last;
+	ctx->operations = add_operation(ctx->operations, "rrb");
 }
 
-void	do_rrr(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
+void	do_rrr(t_context *ctx)
 {
-	do_rra(stack_a, operations);
-	do_rrb(stack_b, operations);
+	do_rra(ctx);
+	do_rrb(ctx);
 }

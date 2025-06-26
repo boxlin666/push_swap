@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:01:18 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:05:44 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:55:33 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,45 +96,43 @@ t_rotation_plan	find_best_rotation_plan(t_stack *stack_a, t_stack *stack_b)
 	return (best_plan);
 }
 
-void	execute_rotation_plan(t_stack *stack_a, t_stack *stack_b,
-		t_rotation_plan plan, t_operation **operations)
+void	execute_rotation_plan(t_context *ctx, t_rotation_plan plan)
 {
 	if (plan.strategy == 0)
 	{
 		while (plan.ra-- > 0)
-			do_ra(stack_a, operations);
+			do_ra(ctx);
 		while (plan.rb-- > 0)
-			do_rb(stack_b, operations);
+			do_rb(ctx);
 	}
 	else if (plan.strategy == 1)
 	{
 		while (plan.rra-- > 0)
-			do_rra(stack_a, operations);
+			do_rra(ctx);
 		while (plan.rrb-- > 0)
-			do_rrb(stack_b, operations);
+			do_rrb(ctx);
 	}
 	else if (plan.strategy == 2)
 	{
 		while (plan.ra-- > 0)
-			do_ra(stack_a, operations);
+			do_ra(ctx);
 		while (plan.rrb-- > 0)
-			do_rrb(stack_b, operations);
+			do_rrb(ctx);
 	}
 	else if (plan.strategy == 3)
 	{
 		while (plan.rra-- > 0)
-			do_rra(stack_a, operations);
+			do_rra(ctx);
 		while (plan.rb-- > 0)
-			do_rb(stack_b, operations);
+			do_rb(ctx);
 	}
 }
 
-void	move_next_element(t_stack *stack_a, t_stack *stack_b,
-		t_operation **operations)
+void	move_next_element(t_context *ctx)
 {
 	t_rotation_plan best_plan;
 
-	best_plan = find_best_rotation_plan(stack_a, stack_b);
-	execute_rotation_plan(stack_a, stack_b, best_plan, operations);
-	do_pa(stack_a, stack_b, operations);
+	best_plan = find_best_rotation_plan(ctx->stack_a, ctx->stack_b);
+	execute_rotation_plan(ctx, best_plan);
+	do_pa(ctx);
 }

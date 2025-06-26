@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:54:53 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:44:58 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:52:11 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,26 @@ int	get_min_index(t_stack *stack_a)
 	return (min_index);
 }
 
-void	rotate_to_position(t_stack *stack, int min_index,
-		t_operation **operations)
+void	rotate_to_position(t_context *ctx, int min_index)
 {
 	int	size;
 	int	forward_steps;
 	int	backward_steps;
 
-	if (stack->size == 0 || min_index == 0)
+	if (ctx->stack_a->size == 0 || min_index == 0)
 		return ;
-	size = stack->size;
+	size = ctx->stack_a->size;
 	forward_steps = min_index;
 	backward_steps = size - min_index;
 	if (forward_steps <= backward_steps)
 	{
 		while (forward_steps--)
-			do_ra(stack, operations);
+			do_ra(ctx);
 	}
 	else
 	{
 		while (backward_steps--)
-			do_rra(stack, operations);
+			do_rra(ctx);
 	}
 }
 
@@ -67,12 +66,12 @@ void	sort_medium(t_context *ctx)
 	while (ctx->stack_a->size > 3)
 	{
 		min_index = get_min_index(ctx->stack_a);
-		rotate_to_position(ctx->stack_a, min_index, &ctx->operations);
-		do_pb(ctx->stack_a, ctx->stack_b, &ctx->operations);
+		rotate_to_position(ctx, min_index);
+		do_pb(ctx);
 	}
 	sort_small(ctx);
 	while (ctx->stack_b->size > 0)
 	{
-		do_pa(ctx->stack_a, ctx->stack_b, &ctx->operations);
+		do_pa(ctx);
 	}
 }

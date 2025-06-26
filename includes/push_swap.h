@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:45:11 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:56:12 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,30 +69,24 @@ void					print_stacks(t_stack *stack_a, t_stack *stack_b);
 void					print_rotation_plan(t_rotation_plan plan);
 
 void					do_sa(t_context *ctx);
-void					do_sb(t_stack *stack_b, t_operation **operations);
-void					do_pa(t_stack *stack_a, t_stack *stack_b,
-							t_operation **operations);
-void					do_pb(t_stack *stack_a, t_stack *stack_b,
-							t_operation **operations);
-void					do_ra(t_stack *stack_a, t_operation **operations);
-void					do_rb(t_stack *stack_b, t_operation **operations);
-void					do_rra(t_stack *stack_a, t_operation **operations);
-void					do_rrb(t_stack *stack_b, t_operation **operations);
+void					do_sb(t_context *ctx);
+void					do_pa(t_context *ctx);
+void					do_pb(t_context *ctx);
+void					do_ra(t_context *ctx);
+void					do_rb(t_context *ctx);
+void					do_rra(t_context *ctx);
+void					do_rrb(t_context *ctx);
 void					do_ss(t_context *ctx);
-void					do_rr(t_stack *stack_a, t_stack *stack_b,
-							t_operation **operations);
-void					do_rrr(t_stack *stack_a, t_stack *stack_b,
-							t_operation **operations);
+void					do_rr(t_context *ctx);
+void					do_rrr(t_context *ctx);
 
 void					sort_small(t_context *ctx);
 void					sort_medium(t_context *ctx);
 
-void					slice_stack(t_stack *stack_a, t_stack *stack_b,
-							t_operation **operations, int min_val, int max_val);
+void					slice_stack(t_context *ctx, int min_val, int max_val);
 t_rotation_plan			compute_rotation_plan(int a_idx, int b_idx, int size_a,
 							int size_b, int a_val, int b_val);
-void					move_next_element(t_stack *stack_a, t_stack *stack_b,
-							t_operation **operations);
+void					move_next_element(t_context *ctx);
 
 void					sort_large(t_context *ctx);
 t_operation				*add_operation(t_operation *head, const char *op);

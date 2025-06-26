@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:45:23 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:57:23 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,35 +37,35 @@ void	sort_large(t_context *ctx)
 	while (i < num_chunks)
 	{
 		if (i != num_chunks - 1)
-			slice_stack(ctx->stack_a, ctx->stack_b, &ctx->operations, i * chunk_size, (i + 1)
+			slice_stack(ctx, i * chunk_size, (i + 1)
 				* chunk_size);
 		else
-			slice_stack(ctx->stack_a, ctx->stack_b, &ctx->operations, i * chunk_size, max_size);
+			slice_stack(ctx, i * chunk_size, max_size);
 		i++;
 	}
 	while (ctx->stack_b->size > 0)
 	{
 		if (ctx->stack_a->size == 0)
-			do_pa(ctx->stack_a, ctx->stack_b, &ctx->operations);
+			do_pa(ctx);
 		else if (ctx->stack_a->size == 1)
 		{
-			do_pa(ctx->stack_a, ctx->stack_b, &ctx->operations);
+			do_pa(ctx);
 			if (ctx->stack_a->head->value > ctx->stack_a->tail->value)
 				do_sa(ctx);
 		}
 		else
-			move_next_element(ctx->stack_a, ctx->stack_b, &ctx->operations);
+			move_next_element(ctx);
 	}
 	head_value = ctx->stack_a->head->value;
 	if (head_value < ctx->stack_a->size / 2)
 	{
 		while (head_value--)
-			do_rra(ctx->stack_a, &ctx->operations);
+			do_rra(ctx);
 	}
 	else
 	{
 		head_value = ctx->stack_a->size - head_value;
 		while (head_value--)
-			do_ra(ctx->stack_a, &ctx->operations);
+			do_ra(ctx);
 	}
 }

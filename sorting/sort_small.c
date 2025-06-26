@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:54:08 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:44:01 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:50:25 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ void	sort_three(t_context *ctx)
 	else if (a > b && b > c && a > c)
 	{
 		do_sa(ctx);
-		do_rra(ctx->stack_a, &ctx->operations);
+		do_rra(ctx);
 	}
 	else if (a < b && b > c && a > c)
-		do_rra(ctx->stack_a, &ctx->operations);
+		do_rra(ctx);
 	else if (a < b && b > c && a < c)
 	{
 		do_sa(ctx);
-		do_ra(ctx->stack_a, &ctx->operations);
+		do_ra(ctx);
 	}
 	else if (a > b && b < c && a > c)
-		do_ra(ctx->stack_a, &ctx->operations);
+		do_ra(ctx);
 }
 
 void	sort_small(t_context *ctx)
