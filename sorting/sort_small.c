@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:54:08 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 12:12:11 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 17:00:13 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,21 @@ void	sort_three(t_stack *stack_a, t_operation **operations)
 	a = stack_a->head->value;
 	b = stack_a->head->next->value;
 	c = stack_a->head->next->next->value;
-	if (a > b && b < c && a < c) // 2,1,3
+	if (a > b && b < c && a < c)
 		do_sa(stack_a, operations);
-	else if (a > b && b > c && a > c) // 3,2,1
+	else if (a > b && b > c && a > c)
 	{
 		do_sa(stack_a, operations);
 		do_rra(stack_a, operations);
 	}
-	else if (a < b && b > c && a > c) // 2,3,1
+	else if (a < b && b > c && a > c)
 		do_rra(stack_a, operations);
-	else if (a < b && b > c && a < c) // 1,3,2
+	else if (a < b && b > c && a < c)
 	{
 		do_sa(stack_a, operations);
 		do_ra(stack_a, operations);
 	}
-	else if (a > b && b < c && a > c) // 3,1,2
+	else if (a > b && b < c && a > c)
 		do_ra(stack_a, operations);
 }
 

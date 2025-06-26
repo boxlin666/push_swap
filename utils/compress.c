@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:34:15 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 16:44:33 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 17:10:04 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 int	is_rotate_op(const char *op)
 {
-	return (strcmp(op, "ra") == 0 || strcmp(op, "rb") == 0 || strcmp(op,
-			"rra") == 0 || strcmp(op, "rrb") == 0);
+	return (ft_strncmp(op, "ra", 3) == 0 || ft_strncmp(op, "rb", 3) == 0
+		|| ft_strncmp(op, "rb", 3) == 0 || ft_strncmp(op, "rrb", 3) == 0);
 }
 
 t_operation	*count_and_free_rotates(t_operation *current, int *ra, int *rb,
@@ -27,13 +27,13 @@ t_operation	*count_and_free_rotates(t_operation *current, int *ra, int *rb,
 	*ra = *rb = *rra = *rrb = 0;
 	while (current && is_rotate_op(current->op))
 	{
-		if (strcmp(current->op, "ra") == 0)
+		if (ft_strncmp(current->op, "ra", 3) == 0)
 			(*ra)++;
-		else if (strcmp(current->op, "rb") == 0)
+		else if (ft_strncmp(current->op, "rb", 3) == 0)
 			(*rb)++;
-		else if (strcmp(current->op, "rra") == 0)
+		else if (ft_strncmp(current->op, "rra", 3) == 0)
 			(*rra)++;
-		else if (strcmp(current->op, "rrb") == 0)
+		else if (ft_strncmp(current->op, "rrb", 3) == 0)
 			(*rrb)++;
 		tmp = current;
 		current = current->next;
@@ -59,13 +59,13 @@ void	merge_rotates(t_operation **head, t_operation **tail, int ra, int rb,
 	int	rr;
 	int	rrr;
 
-	rr = (ra < rb) ? ra : rb;
+	rr = ft_min(ra, rb);
 	ra -= rr;
 	rb -= rr;
 	append_multiple_ops(head, tail, "rr", rr);
 	append_multiple_ops(head, tail, "ra", ra);
 	append_multiple_ops(head, tail, "rb", rb);
-	rrr = (rra < rrb) ? rra : rrb;
+	rrr = ft_min(rra, rrb);
 	rra -= rrr;
 	rrb -= rrr;
 	append_multiple_ops(head, tail, "rrr", rrr);

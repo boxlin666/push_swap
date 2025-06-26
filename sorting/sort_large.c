@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 12:12:00 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 17:38:21 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,6 @@ void slice_stack(t_stack *stack_a, t_stack *stack_b, t_operation **operations, i
     }
 }
 
-int max(int a, int b)
-{
-    if (a >= b)
-        return a;
-    return b;
-}
-
 int get_val_of_idx(t_stack *stack, int index)
 {
     t_node *current = stack->head;
@@ -143,7 +136,7 @@ int get_target_index(t_stack *stack_a, int value)
 
 t_rotation_plan compute_rotation_plan(int a_idx, int b_idx, int size_a, int size_b, int a_val, int b_val)
 {
-    t_rotation_plan best = {0};
+    t_rotation_plan best;
 
     int ra = a_idx;
     int rra = size_a - a_idx;
@@ -151,18 +144,18 @@ t_rotation_plan compute_rotation_plan(int a_idx, int b_idx, int size_a, int size
     int rrb = size_b - b_idx;
 
     int plans[4];
-    plans[0] = max(ra, rb);   // 同时正转 → rr
-    plans[1] = max(rra, rrb); // 同时反转 → rrr
+    plans[0] = ft_max(ra, rb);   // 同时正转 → rr
+    plans[1] = ft_max(rra, rrb); // 同时反转 → rrr
     plans[2] = ra + rrb;      // A正转，B反转
     plans[3] = rra + rb;      // A反转，B正转
 
-    int min = plans[0];
+    int min_val = plans[0];
     int strat = 0;
     for (int i = 0; i < 4; i++)
     {
-        if (plans[i] < min)
+        if (plans[i] < min_val)
         {
-            min = plans[i];
+            min_val = plans[i];
             strat = i;
         }
     }
@@ -173,7 +166,7 @@ t_rotation_plan compute_rotation_plan(int a_idx, int b_idx, int size_a, int size
     best.rra = rra;
     best.rb = rb;
     best.rrb = rrb;
-    best.total = min + 2 * max(a_val, b_val) - a_val - b_val;
+    best.total = min_val + 2 * ft_max(a_val, b_val) - a_val - b_val;
     best.strategy = strat;
 
     return best;

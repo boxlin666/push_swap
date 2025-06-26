@@ -6,16 +6,19 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:53:51 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 16:17:02 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 17:20:07 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <unistd.h>
 
 int	main(int argc, char **argv)
 {
 	t_context	ctx;
 
+	if(argc == 1)
+		return (write(1, "\n", 1), 0);
 	ctx.stack_a = init_stack();
 	ctx.stack_b = init_stack();
 	ctx.operations = NULL;

@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 16:33:30 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 16:49:04 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ void					free_operations(t_operation *operations);
 void					print_operations(t_operation *operations);
 void					error_exit(t_context *ctx);
 void					free_stack(t_stack *stack);
-
+int						ft_max(int a, int b);
+int						ft_min(int a, int b);
 #endif

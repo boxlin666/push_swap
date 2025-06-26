@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:38:22 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 16:41:42 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 17:14:22 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_operation	*remove_inverse_pair(t_operation *head, t_operation *prev,
 	return (head);
 }
 
-// 主优化函数
 t_operation	*optimize_operations(t_operation *head)
 {
 	t_operation	*prev;

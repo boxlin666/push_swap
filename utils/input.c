@@ -6,94 +6,92 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:57:32 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 15:29:00 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 17:07:26 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"push_swap.h"
-#include<stdlib.h>
+#include "push_swap.h"
+#include <stdlib.h>
 
-t_stack *init_stack(void)
+void	swap(int *a, int *b)
 {
-    t_stack *stack;
-    stack = malloc(sizeof(t_stack));
-    if (!stack)
-        return (NULL);
-    stack->head = NULL;
-    stack->tail = NULL;
-    stack->size = 0;
-    return (stack);
+	int	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 
-void swap(int *a, int *b)
+int	partition(int *arr, int low, int high)
 {
-    int tmp = *a;
-    *a = *b;
-    *b = tmp;
+	int	pivot;
+	int	i;
+	int	j;
+
+	pivot = arr[high];
+	i = low - 1;
+	j = low;
+	while (j < high)
+	{
+		if (arr[j] <= pivot)
+		{
+			i++;
+			swap(&arr[i], &arr[j]);
+		}
+		j++;
+	}
+	swap(&arr[i + 1], &arr[high]);
+	return (i + 1);
 }
 
-int partition(int *arr, int low, int high)
+void	quick_sort(int *arr, int low, int high)
 {
-    int pivot = arr[high];
-    int i = low - 1;
-    int j = low;
-    while (j < high)
-    {
-        if (arr[j] <= pivot)
-        {
-            i++;
-            swap(&arr[i], &arr[j]);
-        }
-        j++;
-    }
-    swap(&arr[i + 1], &arr[high]);
-    return i + 1;
+	int	pi;
+
+	if (low < high)
+	{
+		pi = partition(arr, low, high);
+		quick_sort(arr, low, pi - 1);
+		quick_sort(arr, pi + 1, high);
+	}
 }
 
-
-void quick_sort(int *arr, int low, int high)
+int	get_index(int *sorted, int size, int value)
 {
-    if (low < high)
-    {
-        int pi = partition(arr, low, high);
-        quick_sort(arr, low, pi - 1);
-        quick_sort(arr, pi + 1, high);
-    }
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		if (sorted[i] == value)
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
-int get_index(int *sorted, int size, int value)
+void	normalize_stack(t_stack *a)
 {
-    int i = 0;
-    while (i < size)
-    {
-        if (sorted[i] == value)
-            return i;
-        i++;
-    }
-    return -1;
-}
+	int		*arr;
+	int		i;
+	t_node	*cur;
 
-void normalize_stack(t_stack *a)
-{
-    int     *arr;
-    int     i = 0;
-    t_node  *cur = a->head;
-
-    arr = malloc(sizeof(int) * a->size);
-    // if (!arr)
-    //     error_exit();
-    while (cur)
-    {
-        arr[i++] = cur->value;
-        cur = cur->next;
-    }
-    quick_sort(arr, 0, a->size - 1);
-    cur = a->head;
-    while (cur)
-    {
-        cur->value = get_index(arr, a->size, cur->value);
-        cur = cur->next;
-    }
-
-    free(arr);
+	i = 0;
+	cur = a->head;
+	arr = malloc(sizeof(int) * a->size);
+	if (!arr)
+		return ; //
+	while (cur)
+	{
+		arr[i++] = cur->value;
+		cur = cur->next;
+	}
+	quick_sort(arr, 0, a->size - 1);
+	cur = a->head;
+	while (cur)
+	{
+		cur->value = get_index(arr, a->size, cur->value);
+		cur = cur->next;
+	}
+	free(arr);
 }

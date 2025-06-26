@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:54:53 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 12:12:06 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/25 16:55:31 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,11 @@ void	rotate_to_position(t_stack *stack, int min_index,
 void	sort_medium(t_stack *stack_a, t_stack *stack_b,
 		t_operation **operations)
 {
+	int	min_index;
+
 	while (stack_a->size > 3)
 	{
-		int min_index = get_min_index(stack_a);
+		min_index = get_min_index(stack_a);
 		rotate_to_position(stack_a, min_index, operations);
 		do_pb(stack_a, stack_b, operations);
 	}
