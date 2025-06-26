@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 16:49:04 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:04:07 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,14 @@ void					do_rrr(t_stack *stack_a, t_stack *stack_b,
 void					sort_small(t_stack *stack_a, t_operation **operations);
 void					sort_medium(t_stack *stack_a, t_stack *stack_b,
 							t_operation **operations);
+
+void					slice_stack(t_stack *stack_a, t_stack *stack_b,
+							t_operation **operations, int min_val, int max_val);
+t_rotation_plan	compute_rotation_plan(int a_idx, int b_idx, int size_a,
+		int size_b, int a_val, int b_val);
+void					move_next_element(t_stack *stack_a, t_stack *stack_b,
+							t_operation **operations);
+							
 void					sort_large(t_stack *stack_a, t_stack *stack_b,
 							t_operation **operations);
 t_operation				*add_operation(t_operation *head, const char *op);
