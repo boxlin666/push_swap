@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 13:56:49 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:53:23 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 15:30:49 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,81 @@
 
 int	find_ra_next(t_stack *stack, int min_val, int max_val)
 {
-	int	step;
+	int		step;
+	t_node	*cur;
 
 	if (stack->size == 0)
 		return (0);
 	step = 0;
-	for (t_node *cur = stack->head; cur; cur = cur->next)
+	cur = stack->head;
+	while (cur)
 	{
 		if (cur->value >= min_val && cur->value < max_val)
 			return (step);
 		step++;
+		cur = cur->next;
 	}
 	return (0);
 }
 
 int	find_rra_next(t_stack *stack, int min_val, int max_val)
 {
-	int	step;
+	int		step;
+	t_node	*cur;
 
 	if (stack->size == 0)
 		return (0);
 	step = 1;
-	for (t_node *cur = stack->tail; cur; cur = cur->prev)
+	cur = stack->tail;
+	while (cur)
 	{
 		if (cur->value >= min_val && cur->value < max_val)
 			return (-step);
 		step++;
+		cur = cur->prev;
 	}
 	return (0);
 }
 
-void	slice_stack(t_context *ctx, int min_val, int max_val)
+static int	count_slice_targets(t_stack *stack, t_pair range)
 {
-	int	forward_steps;
-	int	backward_steps;
-	int	count;
+	int		count;
+	t_node	*node;
 
 	count = 0;
-	for (t_node *n = ctx->stack_a->head; n; n = n->next)
+	node = stack->head;
+	while (node)
 	{
-		if (n->value >= min_val && n->value < max_val)
+		if (node->value >= range.a && node->value < range.b)
 			count++;
+		node = node->next;
 	}
-	while (count)
-	{
-		forward_steps = find_ra_next(ctx->stack_a, min_val, max_val);
-		backward_steps = -1 * find_rra_next(ctx->stack_a, min_val, max_val);
-		if (forward_steps <= backward_steps)
-			while (forward_steps--)
-				do_ra(ctx);
-		else
-			while (backward_steps--)
-				do_rra(ctx);
-		do_pb(ctx);
-		if (ctx->stack_b->head->value < (min_val + max_val) / 2)
-			do_rb(ctx);
-		count--;
-	}
+	return (count);
+}
+
+static void	move_slice_target(t_context *ctx, t_pair range)
+{
+	int	fw;
+	int	bw;
+
+	fw = find_ra_next(ctx->stack_a, range.a, range.b);
+	bw = -1 * find_rra_next(ctx->stack_a, range.a, range.b);
+	if (fw <= bw)
+		while (fw--)
+			do_ra(ctx);
+	else
+		while (bw--)
+			do_rra(ctx);
+	do_pb(ctx);
+	if (ctx->stack_b->head->value < (range.a + range.b) / 2)
+		do_rb(ctx);
+}
+
+void	slice_stack(t_context *ctx, int min_val, int max_val)
+{
+	int	count;
+
+	count = count_slice_targets(ctx->stack_a, (t_pair){min_val, max_val});
+	while (count--)
+		move_slice_target(ctx, (t_pair){min_val, max_val});
 }

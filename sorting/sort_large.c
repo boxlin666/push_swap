@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:57:23 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 15:29:07 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,27 @@ int	get_chunk_count(int size)
 		return (4);
 }
 
-void	sort_large(t_context *ctx)
+static void	process_chunks(t_context *ctx, int num_chunks, t_pair chunk_meta)
 {
-	int	num_chunks;
-	int	chunk_size;
-	int	max_size;
 	int	i;
-	int	head_value;
+	int	start;
+	int	end;
 
-	num_chunks = get_chunk_count(ctx->stack_a->size);
-	chunk_size = ctx->stack_a->size / num_chunks;
-	max_size = ctx->stack_a->size;
 	i = 0;
 	while (i < num_chunks)
 	{
+		start = i * chunk_meta.a;
 		if (i != num_chunks - 1)
-			slice_stack(ctx, i * chunk_size, (i + 1)
-				* chunk_size);
+			end = (i + 1) * chunk_meta.a;
 		else
-			slice_stack(ctx, i * chunk_size, max_size);
+			end = chunk_meta.b;
+		slice_stack(ctx, start, end);
 		i++;
 	}
+}
+
+static void	move_all_back(t_context *ctx)
+{
 	while (ctx->stack_b->size > 0)
 	{
 		if (ctx->stack_a->size == 0)
@@ -56,16 +56,35 @@ void	sort_large(t_context *ctx)
 		else
 			move_next_element(ctx);
 	}
-	head_value = ctx->stack_a->head->value;
-	if (head_value < ctx->stack_a->size / 2)
-	{
-		while (head_value--)
+}
+
+static void	rotate_a_to_min(t_context *ctx)
+{
+	int	head;
+	int	size;
+
+	head = ctx->stack_a->head->value;
+	size = ctx->stack_a->size;
+	if (head < size / 2)
+		while (head--)
 			do_rra(ctx);
-	}
 	else
 	{
-		head_value = ctx->stack_a->size - head_value;
-		while (head_value--)
+		head = size - head;
+		while (head--)
 			do_ra(ctx);
 	}
+}
+
+void	sort_large(t_context *ctx)
+{
+	t_pair	chunk_meta;
+	int		num_chunks;
+
+	num_chunks = get_chunk_count(ctx->stack_a->size);
+	chunk_meta.a = ctx->stack_a->size / num_chunks;
+	chunk_meta.b = ctx->stack_a->size;
+	process_chunks(ctx, num_chunks, chunk_meta);
+	move_all_back(ctx);
+	rotate_a_to_min(ctx);
 }

@@ -6,7 +6,7 @@
 #    By: helin <helin@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/25 12:10:40 by helin             #+#    #+#              #
-#    Updated: 2025/06/26 14:05:18 by helin            ###   ########.fr        #
+#    Updated: 2025/06/26 15:46:34 by helin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ SRCS = $(SRCS_DIR)/main.c \
        $(SRCS_DIR)/sorting/slice_stack.c \
        $(SRCS_DIR)/sorting/move_next_element.c \
        $(SRCS_DIR)/sorting/compute_rotation_plan.c \
+       $(SRCS_DIR)/sorting/execute_rotation_plan.c \
+       $(SRCS_DIR)/sorting/get_target_index.c \
        $(SRCS_DIR)/sorting/push_swap.c \
        $(SRCS_DIR)/utils/operations.c \
        $(SRCS_DIR)/utils/parse.c \
