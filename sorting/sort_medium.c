@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:54:53 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 16:55:31 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:44:58 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,19 @@ void	rotate_to_position(t_stack *stack, int min_index,
 	}
 }
 
-void	sort_medium(t_stack *stack_a, t_stack *stack_b,
-		t_operation **operations)
+void	sort_medium(t_context *ctx)
 {
 	int	min_index;
 
-	while (stack_a->size > 3)
+	while (ctx->stack_a->size > 3)
 	{
-		min_index = get_min_index(stack_a);
-		rotate_to_position(stack_a, min_index, operations);
-		do_pb(stack_a, stack_b, operations);
+		min_index = get_min_index(ctx->stack_a);
+		rotate_to_position(ctx->stack_a, min_index, &ctx->operations);
+		do_pb(ctx->stack_a, ctx->stack_b, &ctx->operations);
 	}
-	sort_small(stack_a, operations);
-	while (stack_b->size > 0)
+	sort_small(ctx);
+	while (ctx->stack_b->size > 0)
 	{
-		do_pa(stack_a, stack_b, operations);
+		do_pa(ctx->stack_a, ctx->stack_b, &ctx->operations);
 	}
 }

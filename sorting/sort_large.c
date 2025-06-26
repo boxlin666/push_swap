@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:35:08 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:45:23 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	sort_large(t_context *ctx)
 		{
 			do_pa(ctx->stack_a, ctx->stack_b, &ctx->operations);
 			if (ctx->stack_a->head->value > ctx->stack_a->tail->value)
-				do_sa(ctx->stack_a, &ctx->operations);
+				do_sa(ctx);
 		}
 		else
 			move_next_element(ctx->stack_a, ctx->stack_b, &ctx->operations);

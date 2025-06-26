@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:36:41 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:45:11 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void					normalize_stack(t_stack *a);
 void					print_stacks(t_stack *stack_a, t_stack *stack_b);
 void					print_rotation_plan(t_rotation_plan plan);
 
-void					do_sa(t_stack *stack_a, t_operation **operations);
+void					do_sa(t_context *ctx);
 void					do_sb(t_stack *stack_b, t_operation **operations);
 void					do_pa(t_stack *stack_a, t_stack *stack_b,
 							t_operation **operations);
@@ -78,16 +78,14 @@ void					do_ra(t_stack *stack_a, t_operation **operations);
 void					do_rb(t_stack *stack_b, t_operation **operations);
 void					do_rra(t_stack *stack_a, t_operation **operations);
 void					do_rrb(t_stack *stack_b, t_operation **operations);
-void					do_ss(t_stack *stack_a, t_stack *stack_b,
-							t_operation **operations);
+void					do_ss(t_context *ctx);
 void					do_rr(t_stack *stack_a, t_stack *stack_b,
 							t_operation **operations);
 void					do_rrr(t_stack *stack_a, t_stack *stack_b,
 							t_operation **operations);
 
-void					sort_small(t_stack *stack_a, t_operation **operations);
-void					sort_medium(t_stack *stack_a, t_stack *stack_b,
-							t_operation **operations);
+void					sort_small(t_context *ctx);
+void					sort_medium(t_context *ctx);
 
 void					slice_stack(t_stack *stack_a, t_stack *stack_b,
 							t_operation **operations, int min_val, int max_val);

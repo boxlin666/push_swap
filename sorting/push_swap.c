@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:58:41 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:36:44 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:45:30 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	push_swap(t_context *ctx)
 	if (is_sorted(ctx->stack_a))
 		return ;
 	if (ctx->stack_a->size <= 3)
-		sort_small(ctx->stack_a, &ctx->operations);
+		sort_small(ctx);
 	else if (ctx->stack_a->size <= 5)
-		sort_medium(ctx->stack_a, ctx->stack_b, &ctx->operations);
+		sort_medium(ctx);
 	else
 		sort_large(ctx);
 }

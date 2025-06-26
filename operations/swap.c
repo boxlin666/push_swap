@@ -6,31 +6,31 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:34:17 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:31:04 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:41:00 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	do_sa(t_stack *stack_a, t_operation **operations)
+void	do_sa(t_context *ctx)
 {
 	t_node	*first;
 	t_node	*second;
 
-	if (stack_a->size < 2)
+	if (ctx->stack_a->size < 2)
 		return ;
-	first = stack_a->head;
-	second = stack_a->head->next;
+	first = ctx->stack_a->head;
+	second = ctx->stack_a->head->next;
 	first->next = second->next;
 	if (second->next)
 		second->next->prev = first;
 	else
-		stack_a->tail = first;
+		ctx->stack_a->tail = first;
 	second->next = first;
 	second->prev = NULL;
 	first->prev = second;
-	stack_a->head = second;
-	*operations = add_operation(*operations, "sa");
+	ctx->stack_a->head = second;
+	ctx->operations = add_operation(ctx->operations, "sa");
 }
 
 void	do_sb(t_stack *stack_b, t_operation **operations)
@@ -54,8 +54,8 @@ void	do_sb(t_stack *stack_b, t_operation **operations)
 	*operations = add_operation(*operations, "sb");
 }
 
-void	do_ss(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
+void	do_ss(t_context *ctx)
 {
-	do_sa(stack_a, operations);
-	do_sb(stack_b, operations);
+	do_sa(ctx);
+	do_sb(ctx->stack_b, &ctx->operations);
 }
