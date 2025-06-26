@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:57:32 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 17:07:26 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 17:55:42 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	normalize_stack(t_stack *a)
 	cur = a->head;
 	arr = malloc(sizeof(int) * a->size);
 	if (!arr)
-		return ; //
+		return ;
 	while (cur)
 	{
 		arr[i++] = cur->value;

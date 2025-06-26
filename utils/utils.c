@@ -6,22 +6,22 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:59:02 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 16:52:42 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 17:53:53 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int ft_max(int a, int b)
+int	ft_max(int a, int b)
 {
-    if(a > b)
-        return a;
-    return b;
+	if (a > b)
+		return (a);
+	return (b);
 }
 
-int ft_min(int a, int b)
+int	ft_min(int a, int b)
 {
-    if(a < b)
-        return a;
-    return b;
+	if (a < b)
+		return (a);
+	return (b);
 }

@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:54:53 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 17:14:11 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 17:59:50 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	append_op(t_operation **head, t_operation **tail, const char *op)
 	if (!new_op)
 		return ;
 	if (!*head)
-		*head = *tail = new_op;
+	{
+		*head = new_op;
+		*tail = new_op;
+	}
 	else
 	{
 		(*tail)->next = new_op;

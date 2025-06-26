@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:13:37 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 17:21:37 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 17:53:15 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "push_swap.h"
 #include <limits.h>
 #include <stdlib.h>
-#include <string.h>
 
 void	push_to_stack(t_context *ctx, int value)
 {
