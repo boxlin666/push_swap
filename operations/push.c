@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:31:08 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 12:11:17 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:31:17 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	do_pa(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
 
 void	do_pb(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
 {
-	t_node *temp;
+	t_node	*temp;
 
 	if (stack_a->size == 0)
 		return ;
