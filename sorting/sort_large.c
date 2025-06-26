@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:07:15 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:35:08 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	get_chunk_count(int size)
 		return (4);
 }
 
-void	sort_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
+void	sort_large(t_context *ctx)
 {
 	int	num_chunks;
 	int	chunk_size;
@@ -30,42 +30,42 @@ void	sort_large(t_stack *stack_a, t_stack *stack_b, t_operation **operations)
 	int	i;
 	int	head_value;
 
-	num_chunks = get_chunk_count(stack_a->size);
-	chunk_size = stack_a->size / num_chunks;
-	max_size = stack_a->size;
+	num_chunks = get_chunk_count(ctx->stack_a->size);
+	chunk_size = ctx->stack_a->size / num_chunks;
+	max_size = ctx->stack_a->size;
 	i = 0;
 	while (i < num_chunks)
 	{
 		if (i != num_chunks - 1)
-			slice_stack(stack_a, stack_b, operations, i * chunk_size, (i + 1)
+			slice_stack(ctx->stack_a, ctx->stack_b, &ctx->operations, i * chunk_size, (i + 1)
 				* chunk_size);
 		else
-			slice_stack(stack_a, stack_b, operations, i * chunk_size, max_size);
+			slice_stack(ctx->stack_a, ctx->stack_b, &ctx->operations, i * chunk_size, max_size);
 		i++;
 	}
-	while (stack_b->size > 0)
+	while (ctx->stack_b->size > 0)
 	{
-		if (stack_a->size == 0)
-			do_pa(stack_a, stack_b, operations);
-		else if (stack_a->size == 1)
+		if (ctx->stack_a->size == 0)
+			do_pa(ctx->stack_a, ctx->stack_b, &ctx->operations);
+		else if (ctx->stack_a->size == 1)
 		{
-			do_pa(stack_a, stack_b, operations);
-			if (stack_a->head->value > stack_a->tail->value)
-				do_sa(stack_a, operations);
+			do_pa(ctx->stack_a, ctx->stack_b, &ctx->operations);
+			if (ctx->stack_a->head->value > ctx->stack_a->tail->value)
+				do_sa(ctx->stack_a, &ctx->operations);
 		}
 		else
-			move_next_element(stack_a, stack_b, operations);
+			move_next_element(ctx->stack_a, ctx->stack_b, &ctx->operations);
 	}
-	head_value = stack_a->head->value;
-	if (head_value < stack_a->size / 2)
+	head_value = ctx->stack_a->head->value;
+	if (head_value < ctx->stack_a->size / 2)
 	{
 		while (head_value--)
-			do_rra(stack_a, operations);
+			do_rra(ctx->stack_a, &ctx->operations);
 	}
 	else
 	{
-		head_value = stack_a->size - head_value;
+		head_value = ctx->stack_a->size - head_value;
 		while (head_value--)
-			do_ra(stack_a, operations);
+			do_ra(ctx->stack_a, &ctx->operations);
 	}
 }

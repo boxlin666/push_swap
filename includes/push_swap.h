@@ -6,13 +6,19 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:04:07 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/26 14:36:41 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include <stddef.h>
+
+typedef struct s_pair
+{
+	int					a;
+	int					b;
+}						t_pair;
 
 typedef struct s_node
 {
@@ -54,8 +60,7 @@ typedef struct s_rotation_plan
 }						t_rotation_plan;
 
 t_stack					*init_stack(void);
-void					push_swap(t_stack *stack_a, t_stack *stack_b,
-							t_operation **operations);
+void					push_swap(t_context *ctx);
 int						parse_input(t_context *ctx, int argc, char **argv);
 void					quick_sort(int *arr, int low, int high);
 void					normalize_stack(t_stack *a);
@@ -86,13 +91,12 @@ void					sort_medium(t_stack *stack_a, t_stack *stack_b,
 
 void					slice_stack(t_stack *stack_a, t_stack *stack_b,
 							t_operation **operations, int min_val, int max_val);
-t_rotation_plan	compute_rotation_plan(int a_idx, int b_idx, int size_a,
-		int size_b, int a_val, int b_val);
+t_rotation_plan			compute_rotation_plan(int a_idx, int b_idx, int size_a,
+							int size_b, int a_val, int b_val);
 void					move_next_element(t_stack *stack_a, t_stack *stack_b,
 							t_operation **operations);
-							
-void					sort_large(t_stack *stack_a, t_stack *stack_b,
-							t_operation **operations);
+
+void					sort_large(t_context *ctx);
 t_operation				*add_operation(t_operation *head, const char *op);
 void					append_op(t_operation **head, t_operation **tail,
 							const char *op);
