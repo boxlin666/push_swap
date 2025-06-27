@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:53:51 by helin             #+#    #+#             */
-/*   Updated: 2025/06/27 16:04:56 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:58:08 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv)
 		error_exit(&ctx);
 	if (parse_input(&ctx, argc, argv))
 	{
-		normalize_stack(ctx.stack_a);
+		normalize_stack(&ctx);
 		push_swap(&ctx);
 		optimize_operations(ctx.operations);
 		ctx.operations = compress_operations(ctx.operations,

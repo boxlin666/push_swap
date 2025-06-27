@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:13:37 by helin             #+#    #+#             */
-/*   Updated: 2025/06/27 16:40:16 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:55:23 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,6 @@ int	has_duplicates(t_stack *stack)
 	return (0);
 }
 
-
-
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\f' || c == '\n' || c == '\t'
-		|| c == '\v')
-		return (1);
-	return (0);
-}
-
 int	process_number_list(t_context *ctx, char **list)
 {
 	int		i;
@@ -101,7 +91,7 @@ int	process_number_list(t_context *ctx, char **list)
 	i = 0;
 	while (list[i])
 	{
-		if (!is_valid_number(list[i], &num) || num < INT_MIN || num > INT_MAX)
+		if (!is_valid_number(list[i], &num))
 		{
 			free_split(list);
 			error_exit(ctx);
@@ -116,7 +106,9 @@ int	parse_input(t_context *ctx, int argc, char **argv)
 {
 	char	**nums;
 	long	num;
-	int i=0;
+	int		i;
+
+	i = 1;
 	if (argc == 2)
 	{
 		nums = ft_split(argv[1], ' ');
@@ -127,10 +119,9 @@ int	parse_input(t_context *ctx, int argc, char **argv)
 	}
 	else
 	{
-		while(i < argc)
+		while (i < argc)
 		{
-			if (!is_valid_number(argv[i++], &num) || num < INT_MIN
-				|| num > INT_MAX)
+			if (!is_valid_number(argv[i++], &num))
 				error_exit(ctx);
 			push_to_stack(ctx, (int)num);
 		}

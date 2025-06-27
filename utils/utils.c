@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:59:02 by helin             #+#    #+#             */
-/*   Updated: 2025/06/27 16:36:45 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:43:06 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,12 @@ void	free_split(char **numbers)
 		i++;
 	}
 	free(numbers);
+}
+
+int	ft_isspace(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\f' || c == '\n' || c == '\t'
+		|| c == '\v')
+		return (1);
+	return (0);
 }

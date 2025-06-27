@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/27 16:36:31 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:56:26 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_stack					*init_stack(void);
 void					push_swap(t_context *ctx);
 int						parse_input(t_context *ctx, int argc, char **argv);
 void					quick_sort(int *arr, int low, int high);
-void					normalize_stack(t_stack *a);
+void					normalize_stack(t_context *ctx);
 
 void					print_stacks(t_stack *stack_a, t_stack *stack_b);
 void					print_rotation_plan(t_rotation_plan plan);
@@ -102,7 +102,9 @@ void					free_operations(t_operation *operations);
 void					print_operations(t_operation *operations);
 void					error_exit(t_context *ctx);
 void					free_stack(t_stack *stack);
-void					free_split(char **numbers);
+
 int						ft_max(int a, int b);
 int						ft_min(int a, int b);
+void					free_split(char **numbers);
+int						ft_isspace(char c);
 #endif

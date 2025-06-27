@@ -6,7 +6,7 @@
 #    By: helin <helin@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/25 12:10:40 by helin             #+#    #+#              #
-#    Updated: 2025/06/26 15:46:34 by helin            ###   ########.fr        #
+#    Updated: 2025/06/27 16:58:38 by helin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,8 @@ SRCS = $(SRCS_DIR)/main.c \
        $(SRCS_DIR)/utils/memory.c \
        $(SRCS_DIR)/utils/compress.c \
        $(SRCS_DIR)/utils/optimize.c \
-       $(SRCS_DIR)/utils/utils.c \
-       $(SRCS_DIR)/utils/input.c
+       $(SRCS_DIR)/utils/normalize.c \
+       $(SRCS_DIR)/utils/utils.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
