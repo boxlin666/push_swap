@@ -6,12 +6,11 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 15:29:07 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 17:29:42 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <limits.h>
 #include <stdlib.h>
 
 int	get_chunk_count(int size)

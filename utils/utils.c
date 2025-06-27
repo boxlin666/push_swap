@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:59:02 by helin             #+#    #+#             */
-/*   Updated: 2025/06/27 16:43:06 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 17:37:44 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,20 @@ int	ft_isspace(char c)
 		|| c == '\v')
 		return (1);
 	return (0);
+}
+
+int	is_sorted(t_stack *stack)
+{
+	t_node	*current;
+
+	if (stack->size <= 1)
+		return (1);
+	current = stack->head;
+	while (current && current->next)
+	{
+		if (current->value > current->next->value)
+			return (0);
+		current = current->next;
+	}
+	return (1);
 }

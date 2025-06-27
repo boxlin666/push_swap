@@ -6,12 +6,11 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:54:08 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 14:50:25 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 17:28:33 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <unistd.h>
 
 void	sort_two(t_context *ctx)
 {

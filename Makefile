@@ -6,7 +6,7 @@
 #    By: helin <helin@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/25 12:10:40 by helin             #+#    #+#              #
-#    Updated: 2025/06/27 16:58:38 by helin            ###   ########.fr        #
+#    Updated: 2025/06/27 17:37:32 by helin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,16 +45,16 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 BONUS_NAME = checker
 BONUS_DIR = bonus
-BONUS_SRCS = $(BONUS_DIR)/checker.c \
-             $(BONUS_DIR)/checker_utils.c \
+BONUS_SRCS = $(BONUS_DIR)/main_bonus.c \
              $(SRCS_DIR)/operations/swap.c \
              $(SRCS_DIR)/operations/push.c \
              $(SRCS_DIR)/operations/rotate.c \
              $(SRCS_DIR)/operations/reverse_rotate.c \
+             $(SRCS_DIR)/utils/operations.c \
              $(SRCS_DIR)/utils/parse.c \
              $(SRCS_DIR)/utils/error.c \
              $(SRCS_DIR)/utils/memory.c \
-             $(SRCS_DIR)/utils/helpers.c
+             $(SRCS_DIR)/utils/utils.c
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 .PHONY: all clean fclean re bonus
