@@ -6,15 +6,15 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:55:58 by helin             #+#    #+#             */
-/*   Updated: 2025/06/25 17:18:45 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 15:31:44 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"push_swap.h"
-#include<unistd.h>
-#include<stdlib.h>
+#include "push_swap.h"
+#include <stdlib.h>
+#include <unistd.h>
 
-void error_exit(t_context *ctx)
+void	error_exit(t_context *ctx)
 {
 	if (ctx)
 	{

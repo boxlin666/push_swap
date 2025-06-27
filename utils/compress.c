@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:34:15 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 17:53:58 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:06:34 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,24 @@ int	is_rotate_op(const char *op)
 		|| ft_strncmp(op, "rb", 3) == 0 || ft_strncmp(op, "rrb", 3) == 0);
 }
 
-t_operation	*count_and_free_rotates(t_operation *current, int *ra, int *rb,
-		int *rra, int *rrb)
+t_operation	*count_and_free_rotates(t_operation *current, t_rotation_plan *rp)
 {
 	t_operation	*tmp;
 
-	*ra = *rb = *rra = *rrb = 0;
+	rp->ra = 0;
+	rp->rb = 0;
+	rp->rra = 0;
+	rp->rrb = 0;
 	while (current && is_rotate_op(current->op))
 	{
 		if (ft_strncmp(current->op, "ra", 3) == 0)
-			(*ra)++;
+			rp->ra++;
 		else if (ft_strncmp(current->op, "rb", 3) == 0)
-			(*rb)++;
+			rp->rb++;
 		else if (ft_strncmp(current->op, "rra", 3) == 0)
-			(*rra)++;
+			rp->rra++;
 		else if (ft_strncmp(current->op, "rrb", 3) == 0)
-			(*rrb)++;
+			rp->rrb++;
 		tmp = current;
 		current = current->next;
 		free(tmp->op);
@@ -53,27 +55,27 @@ void	append_multiple_ops(t_operation **head, t_operation **tail,
 	}
 }
 
-void	merge_rotates(t_operation **head, t_operation **tail, int ra, int rb,
-		int rra, int rrb)
+void	merge_rotates(t_operation **head, t_operation **tail,
+		t_rotation_plan rp)
 {
 	int	rr;
 	int	rrr;
 
-	rr = ft_min(ra, rb);
-	ra -= rr;
-	rb -= rr;
+	rr = ft_min(rp.ra, rp.rb);
+	rp.ra -= rr;
+	rp.rb -= rr;
 	append_multiple_ops(head, tail, "rr", rr);
-	append_multiple_ops(head, tail, "ra", ra);
-	append_multiple_ops(head, tail, "rb", rb);
-	rrr = ft_min(rra, rrb);
-	rra -= rrr;
-	rrb -= rrr;
+	append_multiple_ops(head, tail, "ra", rp.ra);
+	append_multiple_ops(head, tail, "rb", rp.rb);
+	rrr = ft_min(rp.rra, rp.rrb);
+	rp.rra -= rrr;
+	rp.rrb -= rrr;
 	append_multiple_ops(head, tail, "rrr", rrr);
-	append_multiple_ops(head, tail, "rra", rra);
-	append_multiple_ops(head, tail, "rrb", rrb);
+	append_multiple_ops(head, tail, "rra", rp.rra);
+	append_multiple_ops(head, tail, "rrb", rp.rrb);
 }
 
-t_operation	*compress_operations(t_operation *head)
+t_operation	*compress_operations(t_operation *head, t_rotation_plan rp)
 {
 	t_operation	*new_head;
 	t_operation	*new_tail;
@@ -84,11 +86,11 @@ t_operation	*compress_operations(t_operation *head)
 	new_tail = NULL;
 	current = head;
 	while (current)
+	{
 		if (is_rotate_op(current->op))
 		{
-			int ra, rb, rra, rrb;
-			current = count_and_free_rotates(current, &ra, &rb, &rra, &rrb);
-			merge_rotates(&new_head, &new_tail, ra, rb, rra, rrb);
+			current = count_and_free_rotates(current, &rp);
+			merge_rotates(&new_head, &new_tail, rp);
 		}
 		else
 		{
@@ -98,5 +100,6 @@ t_operation	*compress_operations(t_operation *head)
 			free(tmp->op);
 			free(tmp);
 		}
+	}
 	return (new_head);
 }

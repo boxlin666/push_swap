@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:13:37 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 17:53:15 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:40:16 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,9 @@ int	is_valid_number(const char *str, long *result)
 	*result = 0;
 	if (!str || str[0] == '\0')
 		return (0);
-	if (str[0] == '-' || str[0] == '+')
-	{
-		if (str[0] == '-')
+	if (str[i] == '-' || str[i] == '+')
+		if (str[i++] == '-')
 			sign = -1;
-		i++;
-	}
 	if (str[i] == '\0')
 		return (0);
 	while (str[i])
@@ -86,20 +83,7 @@ int	has_duplicates(t_stack *stack)
 	return (0);
 }
 
-void	free_split(char **numbers)
-{
-	int	i;
 
-	i = 0;
-	if (!numbers)
-		return ;
-	while (numbers[i])
-	{
-		free(numbers[i]);
-		i++;
-	}
-	free(numbers);
-}
 
 int	ft_isspace(char c)
 {
@@ -107,41 +91,6 @@ int	ft_isspace(char c)
 		|| c == '\v')
 		return (1);
 	return (0);
-}
-
-char	**split_by_space(const char *str)
-{
-	int			count = 0, len;
-	char		**result;
-	const char	*start = NULL;
-	int			word_len;
-	char		*word;
-	char		**temp;
-
-	count = 0, len = strlen(str);
-	result = NULL;
-	for (int j = 0; j <= len; j++)
-	{
-		if (!ft_isspace(str[j]) && !start)
-			start = &str[j];
-		else if ((ft_isspace(str[j]) || str[j] == '\0') && start)
-		{
-			word_len = &str[j] - start;
-			word = malloc(word_len + 1);
-			if (!word)
-				return (free_split(result), NULL);
-			strncpy(word, start, word_len);
-			word[word_len] = '\0';
-			temp = realloc(result, sizeof(char *) * (count + 2));
-			if (!temp)
-				return (free_split(result), NULL);
-			result = temp;
-			result[count++] = word;
-			result[count] = NULL;
-			start = NULL;
-		}
-	}
-	return (result);
 }
 
 int	process_number_list(t_context *ctx, char **list)
@@ -166,13 +115,11 @@ int	process_number_list(t_context *ctx, char **list)
 int	parse_input(t_context *ctx, int argc, char **argv)
 {
 	char	**nums;
-			long num;
-
-	if (argc < 2)
-		return (0);
+	long	num;
+	int i=0;
 	if (argc == 2)
 	{
-		nums = split_by_space(argv[1]);
+		nums = ft_split(argv[1], ' ');
 		if (!nums)
 			error_exit(ctx);
 		process_number_list(ctx, nums);
@@ -180,9 +127,9 @@ int	parse_input(t_context *ctx, int argc, char **argv)
 	}
 	else
 	{
-		for (int i = 1; i < argc; i++)
+		while(i < argc)
 		{
-			if (!is_valid_number(argv[i], &num) || num < INT_MIN
+			if (!is_valid_number(argv[i++], &num) || num < INT_MIN
 				|| num > INT_MAX)
 				error_exit(ctx);
 			push_to_stack(ctx, (int)num);

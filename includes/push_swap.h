@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 15:46:48 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:36:31 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,13 @@ t_operation				*add_operation(t_operation *head, const char *op);
 void					append_op(t_operation **head, t_operation **tail,
 							const char *op);
 t_operation				*optimize_operations(t_operation *head);
-t_operation				*compress_operations(t_operation *head);
+t_operation				*compress_operations(t_operation *head,
+							t_rotation_plan rp);
 void					free_operations(t_operation *operations);
 void					print_operations(t_operation *operations);
 void					error_exit(t_context *ctx);
 void					free_stack(t_stack *stack);
+void					free_split(char **numbers);
 int						ft_max(int a, int b);
 int						ft_min(int a, int b);
 #endif
