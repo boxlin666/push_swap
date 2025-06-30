@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:37:44 by helin             #+#    #+#             */
-/*   Updated: 2025/06/27 17:31:22 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/30 18:34:38 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void					sort_small(t_context *ctx);
 void					sort_medium(t_context *ctx);
 
 void					slice_stack(t_context *ctx, int min_val, int max_val);
+void					move_by_window(t_context *ctx, int window_size);
 t_rotation_plan			compute_rotation_plan(t_pair idx, t_pair size,
 							int a_val, int b_val);
 void					execute_rotation_plan(t_context *ctx,
