@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:03:51 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 15:24:42 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/30 15:30:09 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ t_rotation_plan	compute_rotation_plan(t_pair idx, t_pair size, int a_val,
 	find_best_strategy(plans, &min_val, &best.strategy);
 	best.a_idx = idx.a;
 	best.b_idx = idx.b;
-	best.total = min_val + 2 * ft_max(a_val, b_val) - a_val - b_val;
+	best.total = min_val + 0 * ft_max(a_val, b_val) - 0 * a_val - 0 * b_val;
 	return (best);
 }

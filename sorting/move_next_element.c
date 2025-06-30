@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:01:18 by helin             #+#    #+#             */
-/*   Updated: 2025/06/26 15:46:56 by helin            ###   ########.fr       */
+/*   Updated: 2025/06/30 15:30:55 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	move_next_element(t_context *ctx)
 {
 	t_rotation_plan	best_plan;
 
+	// print_stacks(ctx->stack_a, ctx->stack_b);
 	best_plan = find_best_rotation_plan(ctx->stack_a, ctx->stack_b);
 	execute_rotation_plan(ctx, best_plan);
 	do_pa(ctx);
