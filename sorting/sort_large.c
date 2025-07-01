@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:35:19 by helin             #+#    #+#             */
-/*   Updated: 2025/06/30 19:18:02 by helin            ###   ########.fr       */
+/*   Updated: 2025/07/01 13:33:52 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,12 @@ void	sort_large(t_context *ctx)
 	int		num_chunks;
 
 	if (ctx->stack_a->size <= 100)
-	{
 		num_chunks = 2;
-		chunk_meta.a = ctx->stack_a->size / num_chunks;
-		chunk_meta.b = ctx->stack_a->size;
-		process_chunks(ctx, num_chunks, chunk_meta);
-	}
 	else
-	{
-		move_by_window(ctx, 125);
-	}
+		num_chunks = 4;
+	chunk_meta.a = ctx->stack_a->size / num_chunks;
+	chunk_meta.b = ctx->stack_a->size;
+	process_chunks(ctx, num_chunks, chunk_meta);
 	move_all_back(ctx);
 	rotate_a_to_min(ctx);
 }
