@@ -6,7 +6,7 @@
 /*   By: helin <helin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 18:03:30 by helin             #+#    #+#             */
-/*   Updated: 2025/06/27 18:03:33 by helin            ###   ########.fr       */
+/*   Updated: 2025/07/04 11:24:54 by helin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	main(int argc, char **argv)
 {
 	t_context	ctx;
 
+	if (argc == 1)
+		return (0);
 	ft_memset(&ctx, 0, sizeof(ctx));
 	ctx.stack_a = init_stack();
 	ctx.stack_b = init_stack();
